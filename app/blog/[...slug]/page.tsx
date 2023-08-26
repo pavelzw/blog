@@ -13,7 +13,7 @@ import PostBanner from '@/layouts/PostBanner'
 import { Metadata } from 'next'
 import siteMetadata from '@/data/siteMetadata'
 
-const defaultLayout = 'PostLayout'
+const defaultLayout = 'PostSimple'
 const layouts = {
   PostSimple,
   PostLayout,
@@ -107,7 +107,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
   })
   const mainContent = coreContent(post)
   const jsonLd = post.structuredData
-  jsonLd['author'] = authorDetails.map((author) => {
+  jsonLd.author = authorDetails.map((author) => {
     return {
       '@type': 'Person',
       name: author.name,

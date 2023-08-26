@@ -10,6 +10,7 @@ export default function Page() {
   const author = allAuthors.find((p) => p.slug === 'default') as Authors
   const mainContent = coreContent(author)
 
+  // TODO: use thumbhash
   return (
     <>
       <AuthorLayout content={mainContent}>

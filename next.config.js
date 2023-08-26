@@ -66,7 +66,7 @@ module.exports = () => {
       dirs: ['app', 'components', 'layouts', 'scripts'],
     },
     images: {
-      domains: ['picsum.photos'],
+      domains: ['pavel.pink'],
     },
     experimental: {
       appDir: true,
@@ -79,7 +79,7 @@ module.exports = () => {
         },
       ]
     },
-    webpack: (config, options) => {
+    webpack: (config, _options) => {
       config.module.rules.push({
         test: /\.svg$/,
         use: ['@svgr/webpack'],

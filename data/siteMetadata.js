@@ -1,22 +1,22 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: 'Next.js Starter Blog',
-  author: 'Tails Azimuth',
-  headerTitle: 'TailwindBlog',
-  description: 'A blog created with Next.js and Tailwind.css',
+  title: "pavel's blog",
+  author: 'Pavel Zwerschke',
+  headerTitle: "pavel's blog",
+  description: 'My personal blog',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://tailwind-nextjs-starter-blog.vercel.app',
-  siteRepo: 'https://github.com/timlrx/tailwind-nextjs-starter-blog',
+  siteUrl: 'https://pavel.pink',
+  siteRepo: 'https://github.com/pavelzw/pavels-blog',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
-  mastodon: 'https://mastodon.social/@mastodonuser',
-  email: 'address@yoursite.com',
-  github: 'https://github.com',
-  twitter: 'https://twitter.com/Twitter',
-  facebook: 'https://facebook.com',
-  youtube: 'https://youtube.com',
-  linkedin: 'https://www.linkedin.com',
+  // mastodon: 'https://mastodon.social/@pavelzw',
+  email: 'pavelzw@gmail.com',
+  github: 'https://github.com/pavelzw',
+  // twitter: 'https://twitter.com/pavelzw',
+  // facebook: 'https://facebook.com',
+  youtube: 'https://youtube.com/@pavelzw',
+  linkedin: 'https://linkedin.com/in/zwerschke',
   locale: 'en-US',
   analytics: {
     // If you want to use an analytics provider you have to add it to the
@@ -63,7 +63,7 @@ const siteMetadata = {
       // transparent_dark, preferred_color_scheme, custom
       theme: 'light',
       // theme when dark mode
-      darkTheme: 'transparent_dark',
+      darkTheme: 'dark_dimmed',
       // If the theme option above is set to 'custom`
       // please provide a link below to your custom theme css file.
       // example: https://giscus.app/themes/custom_example.css
