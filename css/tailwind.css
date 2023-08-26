@@ -29,3 +29,41 @@ input:-webkit-autofill:focus {
     background-color 600000s 0s,
     color 600000s 0s;
 }
+
+.color-background {
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(
+      at 71% 77%,
+      theme('colors.gradient-1') 0,
+      transparent 21%
+    ),
+    radial-gradient(at 36% 47%, theme('colors.gradient-3') 0, transparent 50%),
+    radial-gradient(at 54% 29%, theme('colors.gradient-3') 0, transparent 28%),
+    radial-gradient(at 45% 51%, theme('colors.gradient-1') 0, transparent 53%),
+    radial-gradient(at 73% 44%, theme('colors.gradient-2') 0, transparent 54%),
+    radial-gradient(at 24% 7%, theme('colors.gradient-2') 0, transparent 40%),
+    radial-gradient(at 76% 46%, theme('colors.gradient-1') 0, transparent 50%);
+  /* mix-blend-mode: normal; */
+  filter: blur(40px);
+  z-index: -1;
+}
+
+.color-background-2 {
+  left: 50%;
+  transform: translateX(-50%) rotate(5deg);
+  background: radial-gradient(
+      at 83% 25%,
+      theme('colors.gradient-1') 0,
+      transparent 21%
+    ),
+    radial-gradient(at 36% 47%, theme('colors.gradient-3') 0, transparent 50%),
+    radial-gradient(at 79% 45%, theme('colors.gradient-3') 0, transparent 28%),
+    radial-gradient(at 66% 38%, theme('colors.gradient-1') 0, transparent 53%),
+    radial-gradient(at 89% 13%, theme('colors.gradient-2') 0, transparent 54%),
+    radial-gradient(at 24% 7%, theme('colors.gradient-2') 0, transparent 40%),
+    radial-gradient(at 76% 46%, theme('colors.gradient-1') 0, transparent 50%);
+  /* mix-blend-mode: normal; */
+  filter: blur(40px);
+  z-index: -1;
+}

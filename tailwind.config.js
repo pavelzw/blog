@@ -15,6 +15,10 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      backgroundImage: {
+        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
       lineHeight: {
         11: '2.75rem',
         12: '3rem',
@@ -27,6 +31,31 @@ module.exports = {
       colors: {
         primary: colors.pink,
         gray: colors.gray,
+        // default
+        // 'gradient-1': '#7d7aff',
+        // 'gradient-2': '#2121e2',
+        // 'gradient-3': '#00fff0',
+        // 'gradient-4': '#8785FF',
+        // bejamas
+        'gradient-1': '#7D7AFF',
+        'gradient-2': '#2121E2',
+        'gradient-3': '#FF76B8',
+        'gradient-4': '#001AFF',
+        // netlify
+        // 'gradient-1': '#00F0FF',
+        // 'gradient-2': '#00F0FF',
+        // 'gradient-3': '#FAFF00',
+        // 'gradient-4': '#00F0FF',
+        // reddie
+        // 'gradient-1': '#FFC700',
+        // 'gradient-2': '#FF85DD',
+        // 'gradient-3': '#FF85DD',
+        // 'gradient-4': '#FF8585',
+        // greenie
+        // 'gradient-1': '#FFCC81',
+        // 'gradient-2': '#00F37F',
+        // 'gradient-3': '#00F37F',
+        // 'gradient-4': '#FFCC81',
       },
       typography: ({ theme }) => ({
         DEFAULT: {

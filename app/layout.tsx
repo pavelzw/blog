@@ -11,6 +11,7 @@ import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
 import { Metadata } from 'next'
+import { GradientBackground, GradientBackgroundBottom } from '@/components/GradientBackground'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -74,16 +75,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-      <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
+      <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white h-full">
         <ThemeProviders>
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
           <SectionContainer>
-            <div className="flex h-screen flex-col justify-between font-sans">
+            <div className="flex h-full flex-col justify-between font-sans">
               <SearchProvider searchConfig={siteMetadata.search as SearchConfig}>
                 <Header />
                 <main className="mb-auto">{children}</main>
               </SearchProvider>
               <Footer />
+              <GradientBackground className="fixed max-w-5xl xl:max-w-7xl w-full h-[30rem]" />
+              <GradientBackgroundBottom className="relative bottom-[10rem] max-w-5xl xl:max-w-7xl w-full h-[20rem]" />
             </div>
           </SectionContainer>
         </ThemeProviders>
