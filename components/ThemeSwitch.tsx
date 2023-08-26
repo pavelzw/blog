@@ -76,7 +76,7 @@ const ThemeSwitch = () => {
 
   return (
     <div className="mr-5">
-      <Menu as="div" className="relative inline-block text-left">
+      <Menu as="div" className="relative inline-block text-left z-10">
         <div>
           <Menu.Button>{activeTheme === 'dark' ? <Moon /> : <Sun />}</Menu.Button>
         </div>

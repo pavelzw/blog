@@ -1,0 +1,16 @@
+flowchart TD
+    linkStyle default stroke:#C9D4E1
+    S[Start] --> A1
+    A1[s = 1]
+    A1 --> I1
+    I1(if x > 10)
+    I1 -->|then| T1
+    I1 -->|else| E1
+    T1{{return s + 10}}
+    E1[t = 2]
+    E1 --> I2
+    I2(if x > 0)
+    I2 -->|then| T2
+    I2 -->|else| E2
+    T2{{return t}}
+    E2{{return -s}}

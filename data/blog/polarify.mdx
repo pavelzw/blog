@@ -1,0 +1,126 @@
+---
+title: Automatically transform complex python methods to polars expressions
+date: '2023-08-25'
+lastmod: '2023-08-25'
+tags: ['polars', 'python', 'ast', 'compiler']
+summary: Tired of writing complicated Polars expressions?
+  polarIFy automatically translates your easy-to-read Python
+  methods into efficient Polars expressions!
+images: ['/static/images/polar-bear.jpg']
+authors: ['default']
+---
+
+In this post, we introduce [polarIFy][polarify], a Python function decorator that gives you a simpler way to write logical statements for Polars.
+With polarIFy, you can use Python's language structures like `if / elif / else` statements and transform them into `pl.when(..).then(..).otherwise(..)` statements.
+This makes your code more readable and less cumbersome to write.
+
+At QuantCo, we frequently deal with insurance contracts where the calculation behavior is contingent upon the exact tariff. For instance, we might calculate certain properties differently for older contracts compared to newer ones.
+
+This introduces a degree of conditional business logic into our data processing pipelines. When working with Polars, these conditional operations often translate into nested `pl.when(..).then(..).otherwise(..)` statements. While this structure is powerful and allows for a great deal of flexibility, it can quickly become complex and difficult to read, especially when dealing with multiple conditions or branches.
+
+This is where polarIFy comes in. By allowing us to write these conditional statements in a more Pythonic way using `if / elif / else` structures, polarIFy greatly simplifies our code. It makes our Polars pipelines cleaner, more readable, and less prone to errors, especially when dealing with the intricate conditional logic often required in our work with insurance contracts.
+
+# Using polarIFy
+
+polarIFy can automatically transform Python functions using `if / elif / else` statements into Polars expressions. Here's an example:
+
+```python
+@polarify
+def func(x: pl.Expr) -> pl.Expr:
+    s = 1
+    if x > 10:
+        return s + 10
+    else:
+        t = 2
+
+    if x > 0:
+        return t
+    else:
+        return -s
+```
+
+This gets transformed into:
+
+```python
+def func_polarified(x: pl.Expr) -> pl.Expr:
+    return (
+        pl.when(x > 10)
+        .then(1 + 10)
+        .otherwise(
+            pl.when(x > 0)
+                .then(2)
+                .otherwise(-1)
+        )
+    )
+```
+
+polarIFy can also handle multiple statements and nested statements, making it a versatile tool for simplifying your Polars code.
+
+# How it works
+
+Let's take a look at the above example in a control flow graph:
+
+![Control flow graph](/static/images/polarify/polarify_1.mmd.svg)
+
+In order to transform this control flow into a Polars expression, we need to keep track of all possible assignments to variables to determine when to return what.
+We do that by creating a dictionary `assignments` for each node that maps variable names to their values.
+
+![Control flow graph](/static/images/polarify/polarify_2.mmd.svg)
+
+At the beginning, we haven't assigned any values to any variables, so we start with an empty dictionary: `assignments = {}`.
+
+In the first step, we assign the value `1` to the variable `s`, so we update the dictionary: `assignments = {'s': 1}`.
+
+![Control flow graph](/static/images/polarify/polarify_3.mmd.svg)
+
+Going further, we evaluate `if x > 10`. This translates to the polars expression `pl.when(x > 10).then(..).otherwise(..)`.
+We need to keep track recursively of all possible assignments to variables and the return value of the `then` and `else` branches of our control flow.
+
+Since the `then` branch directly returns `s + 10`, we can just put a `s + 10` in our polars expression: `pl.when(x > 10).then(assignments['s'] + 10).otherwise(..)`.
+
+Now, let's look at the `else` branch.
+We assign the value `2` to the variable `t`, so we create a new dictionary from the old one with our new assignment: `assignments = {'s': 1, 't': 2}`.
+
+We now have another `if` statement which gets translated into another `pl.when(x > 0).then(..).otherwise(..)` expression.
+
+The `then` branch returns the value of `t`, which we can get from our `assignments` dictionary. Thus, we can put `assignments['t']` into our polars expression: `pl.when(x > 0).then(assignments['t']).otherwise(..)`.
+The `else` branch returns `-s`, which we can also get from our `assignments` dictionary: `pl.when(x > 0).then(..).otherwise(-assignments['s'])`.
+
+All in all, we land at the following polars expression:
+
+```python
+(
+    pl.when(x > 10)
+    .then(1 + 10)
+    .otherwise(
+        pl.when(x > 0)
+            .then(2)
+            .otherwise(-1)
+    )
+)
+```
+
+# Limitations
+
+Since polarIFy transforms Python functions into Polars expressions, it can only handle logic that Polars itself can also do.
+For instance, it can't handle `for` and `while` loops, since it is not possible to do loops for a single element with Polars expressions.
+Also, functions with side effects (like `print`, `raise` or `pl.write_csv`) are not supported since these don't make sense in a Polars expression context.
+
+Since polarIFy is a relatively new project, it might not work for all use cases yet.
+As of August 2023, there are some known limitations:
+- `match ... case` statements are not supported
+- the walrus operator `:=` is not supported
+
+# Conclusion
+
+polarIFy is a powerful tool that simplifies the process of writing conditional statements in Polars.
+By allowing you to write conditions in a more Pythonic way, it makes your code cleaner and easier to understand.
+We're excited about its potential to make working with Polars even more efficient and enjoyable.
+
+We're always looking for feedback and contributions, so feel free to check out the [polarIFy GitHub repository][polarify] and let us know what you think!
+
+---
+
+This is a cross-post from the [QuantCo blog](https://tech.quantco.com/2023/08/25/polarify.html). Check out the other posts there!
+
+[polarify]: https://github.com/quantco/polarify
