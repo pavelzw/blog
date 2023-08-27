@@ -24,6 +24,14 @@ const projectsData = [
     href: '/blog/slim-trees',
   },
   {
+    title: 'conda-forge',
+    description: `conda-forge is a community-led conda channel that provides
+    packages for a wide range of software. I have contributed to the conda-forge
+    community by maintaining over 50 packages.`,
+    imgSrc: '/static/images/anvil.jpg',
+    href: 'https://github.com/search?type=code&q=owner%3Aconda-forge+path%3Arecipe%2Fmeta.yaml+pavelzw',
+  },
+  {
     title: 'The Seven Circles Theorem',
     description: `As part of the Summer of Maths Exposition 2,
     I created a video explaining the Seven Circles Theorem. The video was created using manim.`,
