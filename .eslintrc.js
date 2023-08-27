@@ -75,4 +75,24 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['*.md', '*.mdx'],
+      parser: 'eslint-plugin-markdownlint/parser',
+      extends: ['plugin:markdownlint/recommended'],
+      rules: {
+        // Multiple top-level headings in the same document
+        'markdownlint/md025': 'off',
+        // Inline HTML
+        'markdownlint/md033': [
+          'error',
+          {
+            allowed_elements: ['a'],
+          },
+        ],
+        // First line in a file should be a top-level heading
+        'markdownlint/md041': 'off',
+      },
+    },
+  ],
 }

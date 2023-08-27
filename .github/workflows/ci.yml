@@ -1,0 +1,26 @@
+name: CI
+on: [push]
+
+jobs:
+  typos:
+    name: Check for typos
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: crate-ci/typos@v1.16.8
+
+  frontend:
+    name: Lint and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+      - run: pnpm install
+      - run: pnpm lint
+      - run: pnpm lint-mdx
+      - run: pnpm build

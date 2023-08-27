@@ -8,7 +8,9 @@
     "start": "next start",
     "analyze": "cross-env ANALYZE=true next build",
     "lint": "next lint",
-    "lint:fix": "next lint --fix"
+    "lint:fix": "next lint --fix",
+    "lint-mdx": "next lint --ext .mdx",
+    "lint-mdx:fix": "next lint --ext .mdx --fix"
   },
   "dependencies": {
     "@headlessui/react": "1.7.17",
@@ -55,6 +57,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-markdownlint": "^0.5.0",
     "prettier": "^3.0.2",
     "prettier-plugin-tailwindcss": "^0.5.3",
     "typescript": "5.2.2"
