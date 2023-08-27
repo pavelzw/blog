@@ -1,13 +1,13 @@
 /** @type {import("pliny/config").PlinyConfig } */
 const siteMetadata = {
-  title: "pavel's blog",
+  title: "pavelzw's blog",
   author: 'Pavel Zwerschke',
-  headerTitle: "pavel's blog",
-  description: '',
+  headerTitle: "pavelzw's blog",
+  description: 'My personal blog about software development and other stuff.',
   language: 'en-us',
-  theme: 'system', // system, dark or light
+  theme: 'system',
   siteUrl: 'https://pavel.pink',
-  siteRepo: 'https://github.com/pavelzw/pavels-blog',
+  siteRepo: 'https://github.com/pavelzw/blog',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
   email: 'pavelzw@gmail.com',
