@@ -8,6 +8,7 @@ import type { Blog } from 'contentlayer/generated'
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
+import NewsletterForm from '@/components/NewsletterForm'
 
 interface PaginationProps {
   totalPages: number
@@ -147,6 +148,9 @@ export default function ListLayout({
       {pagination && pagination.totalPages > 1 && !searchValue && (
         <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} />
       )}
+      <div className="flex items-center justify-center pt-4">
+        <NewsletterForm username="pavelzw" />
+      </div>
     </>
   )
 }
