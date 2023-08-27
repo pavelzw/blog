@@ -1,0 +1,34 @@
+---
+title: Deploying JetBrains Gateway in a corporate environment
+date: '2023-09-01'
+tags: ['jetbrains', 'corporate', 'deployment']
+summary: Deploying stuff in a corporate environment can sometimes be challenging
+  due to proxies or firewalls. This article describes how to deploy JetBrains Gateway
+  in a corporate environment with no internet access.
+images: ['/static/images/building-site.jpg']
+authors: ['default']
+layout: PostBanner
+---
+
+When you have worked in a corporate environment, you know that deploying stuff can be challenging.
+TODO: ...
+
+# What is JetBrains Gateway?
+
+JetBrains Gateway is a piece of software that allows you to remotely access your JetBrains IDEs,
+similarly to how you use [VSCode Remote Development](https://code.visualstudio.com/docs/remote/ssh).
+With this, you can run your favorite JetBrains IDEs like IntelliJ IDEA or PyCharm in the :sparkles: cloud :cloud::sparkles:.
+
+# How it usually works
+
+In an open environment that you have control over, the installation of JetBrains Gateway is pretty straightforward.
+
+- install the Gateway Client on your local machine
+- add an SSH connection to your server that should run the IDE
+- click on `Check Connection and Continue`
+- select the IDE you want to install as well as the remote project directory
+- click `Download IDE and Connect`
+- and you're done :tada:
+
+![Connection Screen](/static/images/jetbrains-gateway-corporate/gateway-1.png)
+![JetBrains Gateway](/static/images/jetbrains-gateway-corporate/gateway-2.png)
