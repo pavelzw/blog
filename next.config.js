@@ -63,13 +63,10 @@ module.exports = () => {
     reactStrictMode: true,
     pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'md', 'mdx'],
     eslint: {
-      dirs: ['app', 'components', 'layouts', 'scripts'],
+      dirs: ['app', 'components', 'layouts', 'scripts', 'data'],
     },
     images: {
       domains: ['pavel.pink'],
-    },
-    experimental: {
-      appDir: true,
     },
     async headers() {
       return [
