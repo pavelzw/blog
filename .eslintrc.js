@@ -82,6 +82,13 @@ module.exports = {
       parser: 'eslint-plugin-markdownlint/parser',
       extends: ['plugin:markdownlint/recommended'],
       rules: {
+        // Line length
+        'markdownlint/md013': [
+          'error',
+          {
+            code_blocks: false,
+          },
+        ],
         // Multiple top-level headings in the same document
         'markdownlint/md025': 'off',
         // Inline HTML
