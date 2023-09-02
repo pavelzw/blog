@@ -14,6 +14,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'next',
     'next/core-web-vitals',
+    'plugin:tailwindcss/recommended',
   ],
   rules: {
     'react/react-in-jsx-scope': 'off',

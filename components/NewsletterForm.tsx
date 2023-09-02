@@ -46,7 +46,7 @@ const NewsletterForm = ({
             <span className="sr-only">Email address</span>
             <input
               autoComplete="email"
-              className="focus:ring-primary-600 w-72 rounded-md px-4 focus:border-transparent focus:outline-none focus:ring-2 dark:bg-black"
+              className="w-72 rounded-md px-4 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary-600 dark:bg-black"
               id="email-input"
               placeholder={subscribed ? "You're subscribed! 🎉" : 'Enter your email'}
               required
@@ -56,11 +56,11 @@ const NewsletterForm = ({
             />
           </label>
         </div>
-        <div className="mt-2 flex w-full rounded-md shadow-sm sm:mt-0 sm:ml-3">
+        <div className="mt-2 flex w-full rounded-md shadow-sm sm:ml-3 sm:mt-0">
           <button
-            className={`bg-primary-500 w-full rounded-md py-2 px-4 font-medium text-white sm:py-0 ${
+            className={`w-full rounded-md bg-primary-500 px-4 py-2 font-medium text-white sm:py-0 ${
               subscribed ? 'cursor-default' : 'hover:bg-primary-700 dark:hover:bg-primary-400'
-            } focus:ring-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:ring-offset-black`}
+            } focus:outline-none focus:ring-2 focus:ring-primary-600 focus:ring-offset-2 dark:ring-offset-black`}
             type="submit"
             disabled={subscribed}
           >

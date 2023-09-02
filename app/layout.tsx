@@ -75,7 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
       <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
-      <body className="bg-white text-black antialiased dark:bg-gray-950 dark:text-white h-full">
+      <body className="h-full bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
         <ThemeProviders>
           <Analytics analyticsConfig={siteMetadata.analytics as AnalyticsConfig} />
           <SectionContainer>
@@ -85,8 +85,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <main className="mb-auto">{children}</main>
               </SearchProvider>
               <Footer />
-              <GradientBackground className="fixed max-w-5xl xl:max-w-7xl w-full h-[30rem]" />
-              <GradientBackgroundBottom className="relative bottom-[10rem] max-w-5xl xl:max-w-7xl w-full h-[20rem]" />
+              <GradientBackground className="fixed h-[30rem] w-full max-w-5xl xl:max-w-7xl" />
+              <GradientBackgroundBottom className="relative bottom-[10rem] h-[20rem] w-full max-w-5xl xl:max-w-7xl" />
             </div>
           </SectionContainer>
         </ThemeProviders>

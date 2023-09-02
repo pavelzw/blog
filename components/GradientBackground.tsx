@@ -5,5 +5,5 @@ export const GradientBackground = ({ className }) => (
 )
 
 export const GradientBackgroundBottom = ({ className }) => (
-  <div className={clsx('color-background-2 opacity-20 dark:opacity-15', className)} />
+  <div className={clsx('color-background-2 opacity-20 dark:opacity-30', className)} />
 )
