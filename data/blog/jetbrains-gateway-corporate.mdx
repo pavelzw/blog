@@ -17,7 +17,7 @@ TODO: ...
 
 JetBrains Gateway is a piece of software that allows you to remotely access your JetBrains IDEs,
 similarly to how you use [VSCode Remote Development](https://code.visualstudio.com/docs/remote/ssh).
-With this, you can run your favorite JetBrains IDEs like IntelliJ IDEA or PyCharm in the :sparkles: cloud :cloud::sparkles:.
+With this, you can run your favorite JetBrains IDEs like IntelliJ IDEA or PyCharm in :sparkles: the cloud :cloud::sparkles:.
 
 # How it usually works
 
@@ -31,4 +31,46 @@ In an open environment that you have control over, the installation of JetBrains
 - and you're done :tada:
 
 ![Connection Screen](/static/images/jetbrains-gateway-corporate/gateway-1.png)
+
 ![JetBrains Gateway](/static/images/jetbrains-gateway-corporate/gateway-2.png)
+
+## Taking a closer look
+
+What happens under the hood when you click on `Download IDE and Connect` is that the Gateway application on your local machine 
+tries to connect via SSH to the remote server and then downloads your selected IDE from JetBrains' servers.
+This IDE is actually the same version that you would download as an end-user from JetBrains' website when you want to install PyCharm[^1] or IntelliJ IDEA[^2] on your local machine.
+
+If you look closely into the downloaded file, you will see that there is a `bin` directory that contains a `remote-dev-server.sh` script.
+This script is (more or less) what's executed on the remote server after your IDE is downloaded.
+
+# Corporate setup
+
+In a corporate environment, you usually have to deal with proxies and firewalls.
+In my case, I had the situation that in the environment to deploy Gateway in was a docker container which I only had SSH access to.
+The docker container itself had no internet access, but I could access the internet from the host machine.
+
+Additionally, the only directory that was persisted in the docker container was my home directory which was mounted from a network share.
+PyCharm (and probably the other JetBrains IDEs too) requires a persistent directory to store its configuration and caches.
+The configuration is stored in in `~/.config/JetBrains` by default and the caches are stored in `~/.cache/JetBrains`.
+Unfortunately, PyCharm does not like working on a network share at all[^3], so I had to find a way to store the configuration and caches in a local directory instead.
+Creating a symlink from the network share to a local directory fixed the issue.
+
+```bash
+ln -s /tmp/jetbrains-cache ~/.cache/JetBrains
+```
+
+Since these are only cache files, we also won't lose any meaningful data if the container is restarted.
+
+## Putting it all together
+
+- install the Gateway Client on your local machine
+- add an SSH connection to your server that should run the IDE
+- `scp pycharm-professional-2023.2.1.tar.gz remote-server:~/`
+
+
+
+# Plugins and Drivers
+
+[^1]: https://www.jetbrains.com/pycharm/download/?section=linux or https://download.jetbrains.com/product?code=PY&latest&distribution=linux
+[^2]: https://www.jetbrains.com/idea/download/?section=linux or https://download.jetbrains.com/product?code=IU&latest&distribution=linux
+[^3]: See issue [GTW-5697](https://youtrack.jetbrains.com/issue/GTW-5697) on YouTrack.
