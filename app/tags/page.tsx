@@ -22,7 +22,7 @@ export default async function Page() {
           {tagKeys.length === 0 && 'No tags found.'}
           {sortedTags.map((t) => {
             return (
-              <div key={t} className="mb-2 mr-5 mt-2">
+              <div key={t} className="my-2 mr-5">
                 <Tag text={t} />
                 <Link
                   href={`/tags/${slug(t)}`}

@@ -9,7 +9,7 @@ const Sun = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     fill="currentColor"
-    className="text-gray-900 dark:text-gray-100 h-6 w-6"
+    className="h-6 w-6 text-gray-900 dark:text-gray-100"
   >
     <path
       fillRule="evenodd"
@@ -23,7 +23,7 @@ const Moon = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 20 20"
     fill="currentColor"
-    className="text-gray-900 dark:text-gray-100 h-6 w-6"
+    className="h-6 w-6 text-gray-900 dark:text-gray-100"
   >
     <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
   </svg>
@@ -37,7 +37,7 @@ const Monitor = () => (
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    className="text-gray-900 dark:text-gray-100 h-6 w-6"
+    className="h-6 w-6 text-gray-900 dark:text-gray-100"
   >
     <rect x="3" y="3" width="14" height="10" rx="2" ry="2"></rect>
     <line x1="7" y1="17" x2="13" y2="17"></line>
@@ -76,7 +76,7 @@ const ThemeSwitch = () => {
 
   return (
     <div className="mr-5">
-      <Menu as="div" className="relative inline-block text-left z-10">
+      <Menu as="div" className="relative z-10 inline-block text-left">
         <div>
           <Menu.Button>{activeTheme === 'dark' ? <Moon /> : <Sun />}</Menu.Button>
         </div>
@@ -89,12 +89,12 @@ const ThemeSwitch = () => {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute right-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items className="absolute right-0 mt-2 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/10 focus:outline-none dark:bg-gray-800">
             <RadioGroup value={theme} onChange={setTheme}>
               <div className="p-1">
                 <RadioGroup.Option value="light">
                   <Menu.Item>
-                    <button className="group flex w-full items-center rounded-md px-2 py-2 text-sm">
+                    <button className="group flex w-full items-center rounded-md p-2 text-sm">
                       <div className="mr-2">
                         <Sun />
                       </div>
@@ -104,7 +104,7 @@ const ThemeSwitch = () => {
                 </RadioGroup.Option>
                 <RadioGroup.Option value="dark">
                   <Menu.Item>
-                    <button className="group flex w-full items-center rounded-md px-2 py-2 text-sm">
+                    <button className="group flex w-full items-center rounded-md p-2 text-sm">
                       <div className="mr-2">
                         <Moon />
                       </div>
@@ -114,7 +114,7 @@ const ThemeSwitch = () => {
                 </RadioGroup.Option>
                 <RadioGroup.Option value="system">
                   <Menu.Item>
-                    <button className="group flex w-full items-center rounded-md px-2 py-2 text-sm">
+                    <button className="group flex w-full items-center rounded-md p-2 text-sm">
                       <div className="mr-2">
                         <Monitor />
                       </div>
