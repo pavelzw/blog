@@ -146,6 +146,9 @@ export default makeSource({
       rehypeKatex,
       [rehypeCitation, { path: path.join(root, 'data') }],
       [rehypePrismPlus, { defaultLanguage: 'js', ignoreMissing: true }],
+      // @contentlayer/core@0.3.4 depends on unified@10 while rehype-preset-minify depends on unified@11
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       rehypePresetMinify,
     ],
   },
