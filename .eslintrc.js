@@ -95,7 +95,7 @@ module.exports = {
         'markdownlint/md033': [
           'error',
           {
-            allowed_elements: ['a'],
+            allowed_elements: ['a', 'ThemedImage'],
           },
         ],
         // First line in a file should be a top-level heading
