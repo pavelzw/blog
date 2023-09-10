@@ -24,6 +24,13 @@ const projectsData = [
     href: '/blog/slim-trees',
   },
   {
+    title: 'setup-pixi',
+    description: `setup-pixi is a GitHub action that installs pixi, a new conda
+    package manager, and creates a cached conda environment using pixi.`,
+    imgSrc: '/static/images/pixi-banner.png',
+    href: 'https://github.com/prefix-dev/setup-pixi',
+  },
+  {
     title: 'conda-forge',
     description: `conda-forge is a community-led conda channel that provides
     packages for a wide range of software. I have contributed to the conda-forge

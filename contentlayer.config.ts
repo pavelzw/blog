@@ -4,6 +4,7 @@ import readingTime from 'reading-time'
 import { slug } from 'github-slugger'
 import path from 'path'
 // Remark packages
+import remarkEmoji from 'remark-emoji'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
 import {
@@ -134,6 +135,7 @@ export default makeSource({
   mdx: {
     cwd: process.cwd(),
     remarkPlugins: [
+      remarkEmoji,
       remarkExtractFrontmatter,
       remarkGfm,
       remarkCodeTitles,

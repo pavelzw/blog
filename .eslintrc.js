@@ -82,13 +82,20 @@ module.exports = {
       parser: 'eslint-plugin-markdownlint/parser',
       extends: ['plugin:markdownlint/recommended'],
       rules: {
+        // Line length
+        'markdownlint/md013': [
+          'error',
+          {
+            code_blocks: false,
+          },
+        ],
         // Multiple top-level headings in the same document
         'markdownlint/md025': 'off',
         // Inline HTML
         'markdownlint/md033': [
           'error',
           {
-            allowed_elements: ['a'],
+            allowed_elements: ['a', 'ThemedImage'],
           },
         ],
         // First line in a file should be a top-level heading

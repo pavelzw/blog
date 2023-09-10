@@ -1,0 +1,202 @@
+---
+title: Deploying JetBrains Gateway in a corporate world
+date: '2023-09-10'
+tags: ['jetbrains', 'corporate', 'deployment']
+summary: Deploying stuff in a corporate environment can sometimes be challenging
+  due to proxies or firewalls. This article describes how I deployed JetBrains Gateway
+  in a corporate environment with no internet access.
+images: ['/static/images/building-site.jpg']
+authors: ['default']
+layout: PostBanner
+---
+
+When you have worked in a corporate environment, you know that deploying stuff can
+be challenging.
+During my work, I deployed [JetBrains Gateway](https://jetbrains.com/remote-development/gateway)
+in a corporate environment. In this article, I will describe how I did it and what
+I had to consider.
+
+# What is JetBrains Gateway?
+
+JetBrains Gateway is a piece of software that allows you to remotely access your
+JetBrains IDEs, similarly to how you use [VSCode Remote Development](https://code.visualstudio.com/docs/remote/ssh).
+With this, you can run your favorite JetBrains IDEs like IntelliJ IDEA or PyCharm
+in :sparkles: the cloud :cloud::sparkles:.
+
+# How it usually works
+
+In an open environment that you have control over, the installation of JetBrains
+Gateway is pretty straightforward.
+
+- install the Gateway Client on your local machine
+- add an SSH connection to your server that should run the IDE
+- click on `Check Connection and Continue`
+- select the IDE you want to install as well as the remote project directory
+- click `Download IDE and Connect`
+- and you're done :tada:
+
+<ThemedImage
+  alt="Connection Screen"
+  lightSrc="/static/images/jetbrains-gateway-corporate/gateway-1-light.png"
+  darkSrc="/static/images/jetbrains-gateway-corporate/gateway-1-dark.png"
+  width={912}
+  height={762}
+/>
+
+<ThemedImage
+  alt="Connection Screen"
+  lightSrc="/static/images/jetbrains-gateway-corporate/gateway-2-light.png"
+  darkSrc="/static/images/jetbrains-gateway-corporate/gateway-2-dark.png"
+  width={1897}
+  height={967}
+/>
+
+## Taking a closer look
+
+What happens under the hood when you click on `Download IDE and Connect` is that
+the Gateway application on your local machine tries to connect via SSH to the remote
+server and then downloads your selected IDE from JetBrains' servers.
+This IDE is actually the exact same version that you would download as an end-user
+from JetBrains' website when you want to install PyCharm[^1] or IntelliJ IDEA[^2]
+on your local machine.
+
+If you look closely into the downloaded file, you will see that there is a `bin`
+directory that contains a `remote-dev-server.sh` script.
+This script is (more or less) what's executed on the remote server after your IDE
+is downloaded.
+
+# Corporate setup
+
+In a corporate environment, you usually have to deal with proxies and firewalls.
+In my case, I had the situation that in the environment to deploy Gateway in was
+a docker container which I only had SSH access to.
+The docker container itself had no internet access, but I could access the internet
+from the host machine.
+
+So I had to download the IDE from my local machine and then copy it into the
+remote server.
+
+```bash
+scp pycharm-professional-2023.2.1.tar.gz remote-server:~/
+ssh remote-server
+tar xzf pycharm-professional-2023.2.1.tar.gz -C /opt
+```
+
+Additionally, the only directory that was persisted in the docker container was
+my home directory which was mounted from a network share.
+PyCharm (and probably the other JetBrains IDEs too) requires a persistent directory
+to store its configuration and caches.
+The configuration is stored in in `~/.config/JetBrains` by default and the caches
+are stored in `~/.cache/JetBrains`.
+Unfortunately, PyCharm does not like working on a network share at all[^3],
+so I had to find a way to store the configuration and caches in a local directory
+instead.
+Creating a symlink from the network share to a local directory fixed the issue.
+
+```bash
+ln -s /tmp/jetbrains-cache ~/.cache/JetBrains
+```
+
+Since these are only cache files, we also won't lose any meaningful data if the
+container is restarted.
+
+So when you run this script, you will see some logging and after some time,
+you will see the following message:
+
+```blank
+$ REMOTE_DEV_NON_INTERACTIVE=1 /opt/pycharm-2023.2.1/bin/remote-dev-server.sh run \
+    "${project_dir}"
+    --ssh-link-port 2222 \
+    --ssh-link-host remote-server \
+    --ssh-link-user remote-user \
+    -l 0.0.0.0
+
+...
+*********************************************************
+
+Join link: tcp://0.0.0.0:5990#jt=...
+
+Http link: https://code-with-me.jetbrains.com/remoteDev#idePath=%2Fopt%2Fpycharm-2023.2.1&projectPath=%2Fhome%2Fuser%2Fproject&host=remote-server&port=22&user=user&type=ssh&deploy=false&newUi=true
+
+Gateway link: jetbrains-gateway://connect#idePath=%2Fopt%2Fpycharm-2023.2.1&projectPath=%2Fhome%2Fuser%2Fproject&host=remote-server&port=22&user=user&type=ssh&deploy=false&newUi=true
+
+*********************************************************
+...
+```
+
+You can now either open the http link in your browser which will open the
+JetBrains Gateway app for you or you can use the Gateway link and paste it into
+the Gateway app directly[^4].
+
+And you're done! :rocket:
+
+## Plugins and Drivers
+
+What makes the JetBrains IDEs so powerful is the huge ecosystem of drivers and plugins.
+These drivers and plugins are usually downloaded from the internet when you want
+to install them.
+In my case, I had no internet access, so I had to download them manually and copy
+them into the container.
+
+### Drivers
+
+Drivers are usually project-specific and go into `~/.config/JetBrains`.
+For example, when I want to download the Snowflake driver for a project in `~/project`,
+the `snowflake-jdbc-3.13.27.jar` driver would need to go into
+
+```blank
+~/.config/JetBrains/RemoteDev-PY/_home_user_project/net/snowflake/snowflake-jdbc/3.13.27/snowflake-jdbc-3.13.27.jar
+```
+
+Which jar exactly is needed depends on the driver you want to install.
+You can find the exact name of the jar from the IDE error logs.
+These drivers are usually downloaded from maven central.
+If your corporate environment has a maven mirror like Nexus or Artifactory,
+you could maybe even download the driver from there instead.
+You can also provide your IDE a custom JAR by clicking on the plus sign in the
+"Driver Files" section.
+
+<ThemedImage
+  alt="Connection Screen"
+  lightSrc="/static/images/jetbrains-gateway-corporate/gateway-3-light.png"
+  darkSrc="/static/images/jetbrains-gateway-corporate/gateway-3-dark.png"
+  width={912}
+  height={788}
+/>
+
+### Plugins
+
+Plugins can be downloaded manually from the [JetBrains Website](https://plugins.jetbrains.com).
+For example, if you want to install the [GitToolBox plugin](https://plugins.jetbrains.com/plugin/7499-gittoolbox),
+you can just search for it on the website and download it for your IDE version.
+The downloaded zip needs to be extracted to `~/.config/JetBrains/RemoteDev-PY/_home_user_project/plugins/gittoolbox/`.
+
+You need to differentiate between host plugins and client plugins.
+Host plugins are installed on the remote server and client plugins
+can be installed on the local machine (mostly theme-related plugins).
+For example, [GitToolBox](https://plugins.jetbrains.com/plugin/7499-gittoolbox)
+is a host plugin, but [IdeaVim](https://plugins.jetbrains.com/plugin/164-ideavim)
+is a client plugin.
+
+# Putting it all together
+
+I'd like to end with a short summary of the steps that are needed to deploy
+JetBrains Gateway in a corporate world.
+
+- install the Gateway Client on your local machine
+- download your ide from JetBrains' website
+- `scp <ide>-<version>.tar.gz remote-server:~/`
+- extract the tarball to your installation directory
+- `ln -s /tmp/jetbrains-cache ~/.cache/JetBrains` (if `$HOME` is a network share)
+- add drivers and plugins to `~/.config/JetBrains/RemoteDev-PY/_home_user_project/`[^5]
+  (if needed)
+- if you need a proxy on your local machine, configure it in the Gateway app
+- run the `remote-dev-server.sh` script on the remote server
+- ???
+- profit!!! :money_with_wings:
+
+[^1]: [jetbrains.com/pycharm/download?section=linux](https://www.jetbrains.com/pycharm/download/?section=linux) or [download.jetbrains.com/product?code=PY&latest&distribution=linux](https://download.jetbrains.com/product?code=PY&latest&distribution=linux)
+[^2]: [jetbrains.com/idea/download/?section=linux](https://www.jetbrains.com/idea/download/?section=linux) or [download.jetbrains.com/product?code=IU&latest&distribution=linux](https://download.jetbrains.com/product?code=IU&latest&distribution=linux)
+[^3]: See issue [GTW-5697](https://youtrack.jetbrains.com/issue/GTW-5697) on YouTrack.
+[^4]: In corporate environments, it is usually the case that you cannot access the internet from your local machine directly but through a proxy. You may need to configure the proxy settings in the Gateway app. [px-proxy](https://github.com/genotrance/px) might come in handy if you use NTLM authentication since JetBrains products cannot handle this natively.
+[^5]: You need to update the paths accordingly to your project directory. Also, `RemoteDev-PY` might be different for you depending on the IDE you want to use.
