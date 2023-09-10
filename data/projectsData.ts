@@ -27,7 +27,7 @@ const projectsData = [
     title: 'setup-pixi',
     description: `setup-pixi is a GitHub action that installs pixi, a new conda
     package manager, and creates a cached conda environment using pixi.`,
-    imgSrc: '/static/images/pixi-banner-2.png',
+    imgSrc: '/static/images/pixi-banner.png',
     href: 'https://github.com/prefix-dev/setup-pixi',
   },
   {
