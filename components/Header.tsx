@@ -35,6 +35,7 @@ const Header = () => {
               className="hidden font-medium text-gray-900 dark:text-gray-100 sm:block"
             >
               {link.title}
+              {process.env.SUPER_SECRET}
             </Link>
           ))}
         <SearchButton />
