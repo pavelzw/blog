@@ -18,5 +18,9 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
+      - run: bun run generate-icons
+      - name: Check generated files are up to date
+        run: |
+          git diff --exit-code || (echo "Generated icons are out of date. Run 'bun run generate-icons' and commit." && exit 1)
       - run: bun run check
       - run: bun run build

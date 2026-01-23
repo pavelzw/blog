@@ -10,7 +10,8 @@
     "astro": "astro",
     "check": "astro check",
     "lint": "eslint . --ext .js,.ts,.astro",
-    "lint:fix": "eslint . --ext .js,.ts,.astro --fix"
+    "lint:fix": "eslint . --ext .js,.ts,.astro --fix",
+    "generate-icons": "bun run scripts/generate-icons.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.0",
