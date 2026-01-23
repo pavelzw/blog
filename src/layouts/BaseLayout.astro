@@ -21,15 +21,18 @@ const { title, description, image, article } = Astro.props;
     <BaseHead title={title} description={description} image={image} article={article} />
   </head>
   <body class="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
+    <!-- Fixed top gradient -->
+    <GradientBackground class="fixed top-0 left-1/2 -translate-x-1/2 h-[30rem] w-full max-w-5xl xl:max-w-7xl pointer-events-none" variant="top" />
+    
     <div class="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">
-      <div class="flex h-screen flex-col justify-between font-sans">
+      <div class="flex min-h-screen flex-col justify-between font-sans">
         <Header />
         <main class="mb-auto">
           <slot />
         </main>
         <Footer />
-        <GradientBackground class="fixed top-0 h-[30rem] w-full max-w-5xl xl:max-w-7xl" variant="top" />
-        <GradientBackground class="relative bottom-[10rem] h-[20rem] w-full max-w-5xl xl:max-w-7xl" variant="bottom" />
+        <!-- Bottom gradient scrolls with content, positioned below footer -->
+        <GradientBackground class="relative -mt-32 h-[20rem] w-full pointer-events-none" variant="bottom" />
       </div>
     </div>
   </body>
