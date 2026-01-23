@@ -1,0 +1,36 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import GradientBackground from '../components/GradientBackground.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+}
+
+const { title, description, image, article } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <BaseHead title={title} description={description} image={image} article={article} />
+  </head>
+  <body class="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">
+      <div class="flex h-screen flex-col justify-between font-sans">
+        <Header />
+        <main class="mb-auto">
+          <slot />
+        </main>
+        <Footer />
+        <GradientBackground class="fixed top-0 h-[30rem] w-full max-w-5xl xl:max-w-7xl" variant="top" />
+        <GradientBackground class="relative bottom-[10rem] h-[20rem] w-full max-w-5xl xl:max-w-7xl" variant="bottom" />
+      </div>
+    </div>
+  </body>
+</html>

@@ -9,18 +9,14 @@ jobs:
       - uses: actions/checkout@v4
       - uses: crate-ci/typos@v1.22.9
 
-  frontend:
+  build:
     name: Lint and build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 18
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
-      - run: pnpm install
-      - run: pnpm lint
-      - run: pnpm lint-mdx
-      - run: pnpm build
+          bun-version: latest
+      - run: bun install
+      - run: bun run check
+      - run: bun run build

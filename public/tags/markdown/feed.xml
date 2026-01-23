@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>pavel&#39;s blog</title>
+      <link>https://pavel.pink/blog</link>
+      <description></description>
+      <language>en-us</language>
+      <managingEditor>pavelzw@gmail.com (Pavel Zwerschke)</managingEditor>
+      <webMaster>pavelzw@gmail.com (Pavel Zwerschke)</webMaster>
+      <lastBuildDate>Tue, 08 Mar 2016 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://pavel.pink/tags/markdown/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://pavel.pink/blog/code-sample</guid>
+    <title>Sample .md file</title>
+    <link>https://pavel.pink/blog/code-sample</link>
+    <description>Example of a markdown file with code blocks and syntax highlighting</description>
+    <pubDate>Tue, 08 Mar 2016 00:00:00 GMT</pubDate>
+    <author>pavelzw@gmail.com (Pavel Zwerschke)</author>
+    <category>markdown</category><category>code</category><category>features</category>
+  </item>
+
+    </channel>
+  </rss>

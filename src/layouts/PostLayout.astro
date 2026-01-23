@@ -1,0 +1,110 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { siteMetadata } from '../data/siteMetadata';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  prevPost?: CollectionEntry<'blog'>;
+  nextPost?: CollectionEntry<'blog'>;
+}
+
+const { post, prevPost, nextPost } = Astro.props;
+const { title, date, summary } = post.data;
+---
+
+<BaseLayout title={title} description={summary} article={true}>
+  <article>
+    <div class="xl:divide-y xl:divide-gray-200 xl:dark:divide-gray-700">
+      <header class="pt-6 xl:pb-6">
+        <div class="space-y-1 text-center">
+          <dl class="space-y-10">
+            <div>
+              <dt class="sr-only">Published on</dt>
+              <dd class="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                <FormattedDate date={date} />
+              </dd>
+            </div>
+          </dl>
+          <div>
+            <h1 class="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-5xl md:leading-14">
+              {title}
+            </h1>
+          </div>
+        </div>
+      </header>
+      <div class="grid-rows-[auto_1fr] divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0">
+        <dl class="pb-10 pt-6 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
+          <dt class="sr-only">Author</dt>
+          <dd>
+            <ul class="flex flex-wrap justify-center gap-4 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
+              <li class="flex items-center space-x-2">
+                <img
+                  src={siteMetadata.author.avatar}
+                  alt={siteMetadata.author.name}
+                  class="h-10 w-10 rounded-full"
+                />
+                <dl class="whitespace-nowrap text-sm font-medium leading-5">
+                  <dt class="sr-only">Name</dt>
+                  <dd class="text-gray-900 dark:text-gray-100">{siteMetadata.author.name}</dd>
+                  <dt class="sr-only">GitHub</dt>
+                  <dd>
+                    <a
+                      href={siteMetadata.author.github}
+                      class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                    >
+                      @{siteMetadata.author.github.split('/').pop()}
+                    </a>
+                  </dd>
+                </dl>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
+          <div class="prose max-w-none pb-8 pt-10 dark:prose-invert">
+            <slot />
+          </div>
+        </div>
+        <footer>
+          <div class="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">
+            {(nextPost || prevPost) && (
+              <div class="flex justify-between py-4 xl:block xl:space-y-8 xl:py-8">
+                {prevPost && (
+                  <div>
+                    <h2 class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                      Previous Article
+                    </h2>
+                    <div class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
+                      <a href={`/blog/${prevPost.slug}`}>{prevPost.data.title}</a>
+                    </div>
+                  </div>
+                )}
+                {nextPost && (
+                  <div>
+                    <h2 class="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                      Next Article
+                    </h2>
+                    <div class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
+                      <a href={`/blog/${nextPost.slug}`}>{nextPost.data.title}</a>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+          <div class="pt-4 xl:pt-8">
+            <a
+              href="/blog"
+              class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+              aria-label="Back to the blog"
+            >
+              &larr; Back to the blog
+            </a>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,24 @@
+
+  <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+      <title>pavelzw&#39;s blog</title>
+      <link>https://pavel.pink/blog</link>
+      <description>My personal blog about software development and other stuff.</description>
+      <language>en-us</language>
+      <managingEditor>pavelzw@gmail.com (Pavel Zwerschke)</managingEditor>
+      <webMaster>pavelzw@gmail.com (Pavel Zwerschke)</webMaster>
+      <lastBuildDate>Fri, 25 Aug 2023 00:00:00 GMT</lastBuildDate>
+      <atom:link href="https://pavel.pink/tags/ast/feed.xml" rel="self" type="application/rss+xml"/>
+      
+  <item>
+    <guid>https://pavel.pink/blog/polarify</guid>
+    <title>Automatically transform complex python methods to polars expressions</title>
+    <link>https://pavel.pink/blog/polarify</link>
+    <description>Tired of writing complicated Polars expressions? polarIFy automatically translates your easy-to-read Python methods into efficient Polars expressions!</description>
+    <pubDate>Fri, 25 Aug 2023 00:00:00 GMT</pubDate>
+    <author>pavelzw@gmail.com (Pavel Zwerschke)</author>
+    <category>polars</category><category>python</category><category>ast</category><category>compiler</category>
+  </item>
+
+    </channel>
+  </rss>

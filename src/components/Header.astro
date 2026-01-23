@@ -1,0 +1,30 @@
+---
+import { siteMetadata } from '../data/siteMetadata';
+import { headerNavLinks } from '../data/headerNavLinks';
+import ThemeToggle from './ThemeToggle.astro';
+import MobileNav from './MobileNav.astro';
+---
+
+<header class="flex items-center justify-between py-10">
+  <div>
+    <a href="/" aria-label={siteMetadata.headerTitle}>
+      <div class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+        {siteMetadata.headerTitle}
+      </div>
+    </a>
+  </div>
+  <div class="flex items-center space-x-4 leading-5 sm:space-x-6">
+    {headerNavLinks
+      .filter((link) => link.href !== '/')
+      .map((link) => (
+        <a
+          href={link.href}
+          class="hidden font-medium text-gray-900 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400 sm:block"
+        >
+          {link.title}
+        </a>
+      ))}
+    <ThemeToggle />
+    <MobileNav />
+  </div>
+</header>

@@ -1,0 +1,142 @@
+---
+// Theme toggle button that cycles through Light → Dark → System
+---
+
+<button
+  id="theme-toggle-btn"
+  type="button"
+  class="flex items-center justify-center rounded-full p-2 text-gray-900 hover:bg-gray-100 dark:text-gray-100 dark:hover:bg-gray-800"
+  aria-label="Toggle theme"
+  title="Toggle theme"
+>
+  <!-- Sun icon (shown in light mode) - hidden by default inline to prevent flash -->
+  <svg
+    class="theme-icon-light h-6 w-6"
+    style="display: none;"
+    fill="currentColor"
+    viewBox="0 0 20 20"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+      clip-rule="evenodd"></path>
+  </svg>
+  <!-- Moon icon (shown in dark mode) - hidden by default inline to prevent flash -->
+  <svg
+    class="theme-icon-dark h-6 w-6"
+    style="display: none;"
+    fill="currentColor"
+    viewBox="0 0 20 20"
+  >
+    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+  </svg>
+  <!-- System icon (shown in system mode) - hidden by default inline to prevent flash -->
+  <svg
+    class="theme-icon-system h-6 w-6"
+    style="display: none;"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+    ></path>
+  </svg>
+</button>
+
+<style>
+  /* Hide all icons by default */
+  .theme-icon-light,
+  .theme-icon-dark,
+  .theme-icon-system {
+    display: none !important;
+  }
+  
+  /* Show correct icon based on data-theme attribute on html */
+  :global(html[data-theme="light"]) .theme-icon-light {
+    display: block !important;
+  }
+  
+  :global(html[data-theme="dark"]) .theme-icon-dark {
+    display: block !important;
+  }
+  
+  :global(html[data-theme="system"]) .theme-icon-system {
+    display: block !important;
+  }
+  
+  /* Fallback: if no data-theme is set yet, show system icon */
+  :global(html:not([data-theme])) .theme-icon-system {
+    display: block !important;
+  }
+</style>
+
+<script>
+  function initTheme() {
+    const toggleBtn = document.getElementById('theme-toggle-btn');
+
+    // Theme order: light → dark → system → light
+    const themes = ['light', 'dark', 'system'] as const;
+
+    function getStoredTheme(): 'light' | 'dark' | 'system' {
+      const stored = localStorage.getItem('theme');
+      if (stored === 'light' || stored === 'dark') return stored;
+      return 'system';
+    }
+
+    function getEffectiveTheme(): 'light' | 'dark' {
+      const stored = getStoredTheme();
+      if (stored === 'system') {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      return stored;
+    }
+
+    function applyTheme() {
+      const stored = getStoredTheme();
+      const effective = getEffectiveTheme();
+      document.documentElement.classList.toggle('dark', effective === 'dark');
+      document.documentElement.dataset.theme = stored;
+      
+      // Update title attribute
+      const titles: Record<string, string> = {
+        light: 'Theme: Light',
+        dark: 'Theme: Dark',
+        system: 'Theme: System'
+      };
+      toggleBtn?.setAttribute('title', titles[stored]);
+    }
+
+    function cycleTheme() {
+      const current = getStoredTheme();
+      const currentIndex = themes.indexOf(current);
+      const nextIndex = (currentIndex + 1) % themes.length;
+      const nextTheme = themes[nextIndex];
+      
+      localStorage.setItem('theme', nextTheme);
+      applyTheme();
+    }
+
+    // Click handler to cycle through themes
+    toggleBtn?.addEventListener('click', cycleTheme);
+
+    // Listen for system preference changes when in "system" mode
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (getStoredTheme() === 'system') {
+        applyTheme();
+      }
+    });
+
+    // Initial application (icons are already shown via CSS)
+    applyTheme();
+  }
+
+  // Run on initial load
+  initTheme();
+
+  // Re-run on view transitions
+  document.addEventListener('astro:after-swap', initTheme);
+</script>

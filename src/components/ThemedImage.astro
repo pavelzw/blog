@@ -1,0 +1,31 @@
+---
+interface Props {
+  alt: string;
+  lightSrc: string;
+  darkSrc: string;
+  width?: number;
+  height?: number;
+  class?: string;
+}
+
+const { alt, lightSrc, darkSrc, width, height, class: className } = Astro.props;
+---
+
+<!-- Light mode image -->
+<img
+  src={lightSrc}
+  alt={alt}
+  width={width}
+  height={height}
+  class:list={['dark:hidden', className]}
+  loading="lazy"
+/>
+<!-- Dark mode image -->
+<img
+  src={darkSrc}
+  alt={alt}
+  width={width}
+  height={height}
+  class:list={['hidden dark:block', className]}
+  loading="lazy"
+/>

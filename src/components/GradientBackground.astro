@@ -1,0 +1,14 @@
+---
+interface Props {
+  class?: string;
+  variant?: 'top' | 'bottom';
+}
+
+const { class: className = '', variant = 'top' } = Astro.props;
+
+const baseClasses = variant === 'top' 
+  ? 'color-background opacity-30 dark:opacity-40'
+  : 'color-background-2 opacity-20 dark:opacity-30';
+---
+
+<div class:list={[baseClasses, className]} />
