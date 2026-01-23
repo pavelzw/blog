@@ -26,7 +26,7 @@ interface Props {
 
 const { post, prevPost, nextPost } = Astro.props;
 const { Content } = await post.render();
-const layout = post.data.layoutType || 'PostLayout';
+const layout = post.data.layoutType || 'PostSimple';
 
 const layouts = {
   PostLayout,
@@ -34,7 +34,7 @@ const layouts = {
   PostBanner,
 };
 
-const LayoutComponent = layouts[layout as keyof typeof layouts] || PostLayout;
+const LayoutComponent = layouts[layout as keyof typeof layouts] || PostSimple;
 ---
 
 <LayoutComponent post={post} prevPost={prevPost} nextPost={nextPost}>

@@ -75,7 +75,12 @@ input:-webkit-autofill:focus {
   @apply text-indigo-500;
 }
 
+/* Light mode: opaque, Dark mode: semi-transparent */
 .prose pre {
+  background-color: #1f2937 !important; /* gray-800 */
+}
+
+:is(.dark .prose pre) {
   background-color: rgba(0, 0, 0, 0.5) !important;
 }
 
