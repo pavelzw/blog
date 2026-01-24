@@ -1,10 +1,10 @@
 import anvil from '../assets/projects/anvil.jpg';
-import pixiBanner from '../assets/projects/pixi-banner.png';
+import comics from '../assets/projects/comics.jpg';
 import mamba from '../assets/projects/mamba.jpg';
+import pixiBanner from '../assets/projects/pixi-banner.png';
+import polarBear from '../assets/projects/polar-bear.jpg';
 import sevenCircles from '../assets/projects/seven-circles.png';
 import tree from '../assets/projects/tree.jpg';
-import comics from '../assets/projects/comics.jpg';
-import polarBear from '../assets/projects/polar-bear.jpg';
 
 export const projectsData = [
   {

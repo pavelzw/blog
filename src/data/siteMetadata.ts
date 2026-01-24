@@ -1,6 +1,6 @@
 export const siteMetadata = {
-  title: "pavel.pink",
-  headerTitle: "pavel.pink",
+  title: 'pavel.pink',
+  headerTitle: 'pavel.pink',
   description: 'My personal blog about software development and other stuff.',
   language: 'en-us',
   siteUrl: 'https://pavel.pink',

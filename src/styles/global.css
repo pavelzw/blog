@@ -6,7 +6,7 @@
 
 @theme {
   --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  
+
   --color-primary-50: #fdf2f8;
   --color-primary-100: #fce7f3;
   --color-primary-200: #fbcfe8;
@@ -18,12 +18,12 @@
   --color-primary-800: #9d174d;
   --color-primary-900: #831843;
   --color-primary-950: #500724;
-  
-  --color-gradient-1: #7D7AFF;
-  --color-gradient-2: #2121E2;
-  --color-gradient-3: #FF76B8;
-  --color-gradient-4: #001AFF;
-  
+
+  --color-gradient-1: #7d7aff;
+  --color-gradient-2: #2121e2;
+  --color-gradient-3: #ff76b8;
+  --color-gradient-4: #001aff;
+
   --line-height-11: 2.75rem;
   --line-height-12: 3rem;
   --line-height-13: 3.25rem;
@@ -53,17 +53,11 @@
 /* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
 input:-webkit-autofill,
 input:-webkit-autofill:focus {
-  transition:
-    background-color 600000s 0s,
-    color 600000s 0s;
+  transition: background-color 600000s 0s, color 600000s 0s;
 }
 
 .color-background {
-  background: radial-gradient(
-      at 71% 77%,
-      var(--color-gradient-1) 0,
-      transparent 21%
-    ),
+  background: radial-gradient(at 71% 77%, var(--color-gradient-1) 0, transparent 21%),
     radial-gradient(at 36% 47%, var(--color-gradient-3) 0, transparent 50%),
     radial-gradient(at 54% 29%, var(--color-gradient-3) 0, transparent 28%),
     radial-gradient(at 45% 51%, var(--color-gradient-1) 0, transparent 53%),
@@ -75,11 +69,7 @@ input:-webkit-autofill:focus {
 }
 
 .color-background-2 {
-  background: radial-gradient(
-      at 83% 25%,
-      var(--color-gradient-1) 0,
-      transparent 21%
-    ),
+  background: radial-gradient(at 83% 25%, var(--color-gradient-1) 0, transparent 21%),
     radial-gradient(at 36% 47%, var(--color-gradient-3) 0, transparent 50%),
     radial-gradient(at 79% 45%, var(--color-gradient-3) 0, transparent 28%),
     radial-gradient(at 66% 38%, var(--color-gradient-1) 0, transparent 53%),

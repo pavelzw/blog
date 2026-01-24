@@ -1,7 +1,7 @@
+import { mkdir, writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
-import { mkdir, writeFile } from 'fs/promises';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const faviconDir = join(__dirname, '../public/static/favicons');
@@ -48,16 +48,10 @@ async function generateIcons() {
   await writeFile(join(faviconDir, 'favicon.svg'), faviconSvg.trim());
 
   // Generate favicon PNG (32x32) as fallback for browsers that don't support SVG
-  await sharp(svgBuffer)
-    .resize(32, 32)
-    .png()
-    .toFile(join(faviconDir, 'favicon-32x32.png'));
+  await sharp(svgBuffer).resize(32, 32).png().toFile(join(faviconDir, 'favicon-32x32.png'));
 
   // Generate apple-touch-icon (180x180)
-  await sharp(svgBuffer)
-    .resize(180, 180)
-    .png()
-    .toFile(join(faviconDir, 'apple-touch-icon.png'));
+  await sharp(svgBuffer).resize(180, 180).png().toFile(join(faviconDir, 'apple-touch-icon.png'));
 
   // Generate Android Chrome icons
   await sharp(svgBuffer)
@@ -71,10 +65,7 @@ async function generateIcons() {
     .toFile(join(faviconDir, 'android-chrome-512x512.png'));
 
   // Generate site logo (512x512)
-  await sharp(svgBuffer)
-    .resize(512, 512)
-    .png()
-    .toFile(join(imagesDir, 'logo.png'));
+  await sharp(svgBuffer).resize(512, 512).png().toFile(join(imagesDir, 'logo.png'));
 
   // Generate twitter card (1200x630)
   const twitterCardBuffer = Buffer.from(twitterCardSvg);
@@ -86,7 +77,7 @@ async function generateIcons() {
   // Generate web manifest
   const manifest = {
     name: "Pavel's Blog",
-    short_name: "Pavel",
+    short_name: 'Pavel',
     icons: [
       { src: '/static/favicons/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
       { src: '/static/favicons/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
