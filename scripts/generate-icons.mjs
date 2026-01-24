@@ -86,7 +86,7 @@ async function generateIcons() {
     background_color: '#111111',
     display: 'standalone',
   };
-  await writeFile(join(faviconDir, 'site.webmanifest'), JSON.stringify(manifest, null, 2));
+  await writeFile(join(faviconDir, 'site.webmanifest'), `${JSON.stringify(manifest, null, 2)}\n`);
 
   console.log('Generated favicons, logo.png, twitter-card.png, and site.webmanifest');
 }
