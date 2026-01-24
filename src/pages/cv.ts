@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-const url = 'https://github.com/pavelzw/cv/releases/latest/download/english.pdf';
+const url = 'https://github.com/pavelzw/cv/releases/latest/download/cv.pdf';
 
 export const prerender = false;
 
