@@ -1,0 +1,113 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  --color-primary-50: #fdf2f8;
+  --color-primary-100: #fce7f3;
+  --color-primary-200: #fbcfe8;
+  --color-primary-300: #f9a8d4;
+  --color-primary-400: #f472b6;
+  --color-primary-500: #ec4899;
+  --color-primary-600: #db2777;
+  --color-primary-700: #be185d;
+  --color-primary-800: #9d174d;
+  --color-primary-900: #831843;
+  --color-primary-950: #500724;
+
+  --color-gradient-1: #7d7aff;
+  --color-gradient-2: #2121e2;
+  --color-gradient-3: #ff76b8;
+  --color-gradient-4: #001aff;
+
+  --line-height-11: 2.75rem;
+  --line-height-12: 3rem;
+  --line-height-13: 3.25rem;
+  --line-height-14: 3.5rem;
+}
+
+.task-list-item::before {
+  @apply hidden;
+}
+
+.task-list-item {
+  @apply list-none;
+}
+
+.footnotes {
+  @apply mt-12 border-t border-gray-200 pt-8 dark:border-gray-700;
+}
+
+.data-footnote-backref {
+  @apply no-underline;
+}
+
+.csl-entry {
+  @apply my-5;
+}
+
+/* https://stackoverflow.com/questions/61083813/how-to-avoid-internal-autofill-selected-style-to-be-applied */
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+.color-background {
+  background: radial-gradient(at 71% 77%, var(--color-gradient-1) 0, transparent 21%),
+    radial-gradient(at 36% 47%, var(--color-gradient-3) 0, transparent 50%),
+    radial-gradient(at 54% 29%, var(--color-gradient-3) 0, transparent 28%),
+    radial-gradient(at 45% 51%, var(--color-gradient-1) 0, transparent 53%),
+    radial-gradient(at 73% 44%, var(--color-gradient-2) 0, transparent 54%),
+    radial-gradient(at 24% 7%, var(--color-gradient-2) 0, transparent 40%),
+    radial-gradient(at 76% 46%, var(--color-gradient-1) 0, transparent 50%);
+  filter: blur(40px);
+  z-index: -1;
+}
+
+.color-background-2 {
+  background: radial-gradient(at 83% 25%, var(--color-gradient-1) 0, transparent 21%),
+    radial-gradient(at 36% 47%, var(--color-gradient-3) 0, transparent 50%),
+    radial-gradient(at 79% 45%, var(--color-gradient-3) 0, transparent 28%),
+    radial-gradient(at 66% 38%, var(--color-gradient-1) 0, transparent 53%),
+    radial-gradient(at 89% 13%, var(--color-gradient-2) 0, transparent 54%),
+    radial-gradient(at 24% 7%, var(--color-gradient-2) 0, transparent 40%),
+    radial-gradient(at 76% 46%, var(--color-gradient-1) 0, transparent 50%);
+  filter: blur(40px);
+  z-index: -1;
+}
+
+/* Prose styling overrides */
+.prose a {
+  @apply text-primary-500 hover:text-primary-600 dark:hover:text-primary-400;
+}
+
+.prose code {
+  @apply text-indigo-500;
+}
+
+/* Light mode: opaque, Dark mode: semi-transparent */
+.prose pre {
+  background-color: #1f2937 !important; /* gray-800 */
+}
+
+:is(.dark .prose pre) {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Constrain image/SVG sizes in prose */
+.prose img {
+  @apply max-w-full h-auto mx-auto;
+}
+
+.prose img[src$=".svg"] {
+  @apply max-h-96;
+}
+
+/* KaTeX styling */
+.katex-display {
+  @apply overflow-x-auto overflow-y-hidden;
+}

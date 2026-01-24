@@ -1,0 +1,32 @@
+---
+import { siteMetadata } from '../data/siteMetadata';
+import { headerNavLinks } from '../data/headerNavLinks';
+import ThemeToggle from './ThemeToggle.astro';
+import MobileNav from './MobileNav.astro';
+---
+
+<header class="flex items-center justify-between py-10">
+  <div>
+    <a href="/" aria-label={siteMetadata.headerTitle} class="flex items-center gap-2">
+      <svg class="h-8 w-8" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <rect width="100" height="100" rx="15" fill="#111"/>
+        <text x="50" y="68" font-family="monospace" font-size="60" font-weight="bold" fill="#f472b6" text-anchor="middle">&gt;_</text>
+      </svg>
+      <span class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+        pavel<span class="text-primary-500">.pink</span>
+      </span>
+    </a>
+  </div>
+  <div class="flex items-center space-x-4 leading-5 sm:space-x-6">
+    {headerNavLinks.map((link) => (
+        <a
+          href={link.href}
+          class="hidden font-medium text-gray-900 hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400 sm:block"
+        >
+          {link.title}
+        </a>
+      ))}
+    <ThemeToggle />
+    <MobileNav />
+  </div>
+</header>

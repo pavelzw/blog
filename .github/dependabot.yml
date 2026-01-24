@@ -4,11 +4,19 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    groups:
+      gh-actions:
+        patterns:
+          - "*"
+    cooldown:
+      default-days: 7
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: monthly
     groups:
-      dependencies:
+      node:
         patterns:
           - "*"
+    cooldown:
+      default-days: 7

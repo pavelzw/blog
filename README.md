@@ -1,8 +1,6 @@
-# pavel's blog
+# pavel.pink
 
 Check it out at [pavel.pink](https://pavel.pink).
-
-Based on [timlrx/tailwind-nextjs-starter-blog](https://github.com/timlrx/tailwind-nextjs-starter-blog).
 
 ## Generate mermaid diagrams
 

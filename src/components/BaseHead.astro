@@ -1,0 +1,93 @@
+---
+import { siteMetadata } from '../data/siteMetadata';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const {
+  title = siteMetadata.title,
+  description = siteMetadata.description,
+  image = siteMetadata.socialBanner,
+  article = false,
+} = Astro.props;
+
+const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetadata.title}`;
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<!-- Terminal prompt favicon with pink accent -->
+<link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png" />
+<link rel="icon" type="image/svg+xml" href="/static/favicons/favicon.svg" />
+<link rel="apple-touch-icon" href="/static/favicons/apple-touch-icon.png" />
+<link rel="manifest" href="/static/favicons/site.webmanifest" />
+<meta name="msapplication-TileColor" content="#000000" />
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#fff" />
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title={siteMetadata.title} href="/rss.xml" />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+<meta name="author" content={siteMetadata.author.name} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={article ? 'article' : 'website'} />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:locale" content={siteMetadata.locale} />
+<meta property="og:site_name" content={siteMetadata.title} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={fullTitle} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+<!-- Umami Analytics -->
+{siteMetadata.analytics.umamiWebsiteId && (
+  <script
+    is:inline
+    defer
+    src="https://analytics.umami.is/script.js"
+    data-website-id={siteMetadata.analytics.umamiWebsiteId}
+  />
+)}
+
+<!-- Theme initialization (must be inline to prevent flash) -->
+<script is:inline>
+  (function() {
+    const stored = localStorage.getItem('theme');
+    const effectiveTheme = stored === 'dark' || stored === 'light' 
+      ? stored 
+      : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const storedTheme = stored === 'dark' || stored === 'light' ? stored : 'system';
+    
+    document.documentElement.classList.toggle('dark', effectiveTheme === 'dark');
+    document.documentElement.dataset.theme = storedTheme;
+  })();
+</script>
+
+<!-- Space Grotesk Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet" />
+
+<!-- KaTeX CSS for math rendering -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous" />

@@ -1,0 +1,42 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
+import PostSimple from '../../layouts/PostSimple.astro';
+import PostBanner from '../../layouts/PostBanner.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  
+  return sortedPosts.map((post, index) => ({
+    params: { slug: post.slug },
+    props: {
+      post,
+      prevPost: sortedPosts[index + 1],
+      nextPost: sortedPosts[index - 1],
+    },
+  }));
+}
+
+type Props = {
+  post: CollectionEntry<'blog'>;
+  prevPost?: CollectionEntry<'blog'>;
+  nextPost?: CollectionEntry<'blog'>;
+};
+
+const { post, prevPost, nextPost } = Astro.props as Props;
+const { Content } = await post.render();
+const layout = post.data.layoutType || 'PostSimple';
+
+const layouts = {
+  PostLayout,
+  PostSimple,
+  PostBanner,
+};
+
+const LayoutComponent = layouts[layout as keyof typeof layouts] || PostSimple;
+---
+
+<LayoutComponent post={post} prevPost={prevPost} nextPost={nextPost}>
+  <Content />
+</LayoutComponent>
