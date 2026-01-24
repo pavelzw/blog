@@ -4,15 +4,20 @@ import type { ImageMetadata } from 'astro';
 
 interface Props {
   title: string;
-  description: string;
   img?: ImageMetadata;
   href?: string;
+  badge?: { github: string } | { youtube: string };
+  imgBgColor?: string;
+  imgContain?: boolean;
+  imgPosition?: 'top' | 'center' | 'bottom';
 }
 
-const { title, description, img, href } = Astro.props;
+const { title, img, href, badge, imgBgColor, imgContain, imgPosition } = Astro.props;
+const github = badge && 'github' in badge ? badge.github : undefined;
+const youtube = badge && 'youtube' in badge ? badge.youtube : undefined;
 ---
 
-<div class="max-w-[544px] p-4 md:w-1/2">
+<div class="w-full p-4 md:w-1/2 md:max-w-[544px]">
   <div
     class:list={[
       'overflow-hidden rounded-md border-2 border-gray-200/60 dark:border-gray-700',
@@ -20,7 +25,10 @@ const { title, description, img, href } = Astro.props;
     ]}
   >
     {img && (
-      <div class="aspect-video overflow-hidden">
+      <div
+        class="aspect-video overflow-hidden"
+        style={imgBgColor ? `background-color: ${imgBgColor}` : undefined}
+      >
         {href ? (
           <a href={href} aria-label={`Link to ${title}`}>
             <Image
@@ -28,7 +36,8 @@ const { title, description, img, href } = Astro.props;
               src={img}
               width={544}
               height={306}
-              class="h-full w-full object-cover"
+              class:list={['h-full w-full', imgContain ? 'object-contain' : 'object-cover']}
+              style={imgPosition ? `object-position: ${imgPosition}` : undefined}
               loading="lazy"
             />
           </a>
@@ -38,32 +47,136 @@ const { title, description, img, href } = Astro.props;
             src={img}
             width={544}
             height={306}
-            class="h-full w-full object-cover"
+            class:list={['h-full w-full', imgContain ? 'object-contain' : 'object-cover']}
+            style={imgPosition ? `object-position: ${imgPosition}` : undefined}
             loading="lazy"
           />
         )}
       </div>
     )}
     <div class="p-6">
-      <h2 class="mb-3 text-2xl font-bold leading-8 tracking-tight">
-        {href ? (
-          <a href={href} aria-label={`Link to ${title}`} class="hover:text-primary-500 dark:hover:text-primary-400">
-            {title}
+      <div class="mb-3 flex items-center justify-between gap-2">
+        <h2 class="text-2xl font-bold leading-8 tracking-tight">
+          {href ? (
+            <a href={href} aria-label={`Link to ${title}`} class="hover:text-primary-500 dark:hover:text-primary-400">
+              {title}
+            </a>
+          ) : (
+            title
+          )}
+        </h2>
+        {github && (
+          <a
+            href={`https://github.com/${github}`}
+            class="github-stars flex shrink-0 items-center gap-1 rounded-md bg-gray-100 px-2 py-1 text-sm text-gray-600 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+            data-repo={github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`View ${title} on GitHub`}
+          >
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+            </svg>
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+            <span class="star-count">--</span>
           </a>
-        ) : (
-          title
         )}
-      </h2>
-      <p class="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">{description}</p>
-      {href && (
-        <a
-          href={href}
-          class="text-base font-medium leading-6 text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-          aria-label={`Link to ${title}`}
-        >
-          Learn more &rarr;
-        </a>
-      )}
+        {youtube && (
+          <a
+            href={youtube}
+            class="flex shrink-0 items-center gap-1 rounded-md bg-red-100 px-2 py-1 text-sm text-red-700 transition-colors hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Watch ${title} on YouTube`}
+          >
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            <span>YouTube</span>
+          </a>
+        )}
+      </div>
+      <p class="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">
+        <slot />
+      </p>
     </div>
   </div>
 </div>
+
+<script>
+  const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 1 week
+
+  function formatStars(count: number): string {
+    if (count >= 1000) {
+      return `${(count / 1000).toFixed(1)}k`;
+    }
+    return count.toString();
+  }
+
+  function getCachedStars(repo: string): number | null {
+    try {
+      const cached = localStorage.getItem(`github-stars:${repo}`);
+      if (!cached) return null;
+      const { stars, timestamp } = JSON.parse(cached);
+      if (Date.now() - timestamp > CACHE_TTL_MS) {
+        localStorage.removeItem(`github-stars:${repo}`);
+        return null;
+      }
+      return stars;
+    } catch {
+      localStorage.removeItem(`github-stars:${repo}`);
+      return null;
+    }
+  }
+
+  function setCachedStars(repo: string, stars: number): void {
+    try {
+      localStorage.setItem(
+        `github-stars:${repo}`,
+        JSON.stringify({ stars, timestamp: Date.now() })
+      );
+    } catch {
+      // Ignore storage errors
+    }
+  }
+
+  async function fetchGitHubStars() {
+    const elements = document.querySelectorAll('.github-stars');
+
+    for (const el of elements) {
+      const repo = (el as HTMLElement).dataset.repo;
+      if (!repo) continue;
+
+      const countEl = el.querySelector('.star-count');
+      if (!countEl) continue;
+
+      // Check cache first
+      const cachedStars = getCachedStars(repo);
+      if (cachedStars !== null) {
+        countEl.textContent = formatStars(cachedStars);
+        continue;
+      }
+
+      // Fetch from GitHub API
+      try {
+        const res = await fetch(`https://api.github.com/repos/${repo}`);
+        if (!res.ok) continue;
+        const data = await res.json();
+        if (typeof data.stargazers_count === 'number') {
+          setCachedStars(repo, data.stargazers_count);
+          countEl.textContent = formatStars(data.stargazers_count);
+        }
+      } catch {
+        // Keep placeholder on error
+      }
+    }
+  }
+
+  // Run on initial load
+  fetchGitHubStars();
+
+  // Re-run on view transitions
+  document.addEventListener('astro:after-swap', fetchGitHubStars);
+</script>
