@@ -8,9 +8,12 @@ interface Props {
   img?: ImageMetadata;
   href?: string;
   badge?: { github: string } | { youtube: string };
+  imgBgColor?: string;
+  imgContain?: boolean;
+  imgPosition?: 'top' | 'center' | 'bottom';
 }
 
-const { title, description, img, href, badge } = Astro.props;
+const { title, description, img, href, badge, imgBgColor, imgContain, imgPosition } = Astro.props;
 const github = badge && 'github' in badge ? badge.github : undefined;
 const youtube = badge && 'youtube' in badge ? badge.youtube : undefined;
 ---
@@ -23,7 +26,10 @@ const youtube = badge && 'youtube' in badge ? badge.youtube : undefined;
     ]}
   >
     {img && (
-      <div class="aspect-video overflow-hidden">
+      <div
+        class="aspect-video overflow-hidden"
+        style={imgBgColor ? `background-color: ${imgBgColor}` : undefined}
+      >
         {href ? (
           <a href={href} aria-label={`Link to ${title}`}>
             <Image
@@ -31,7 +37,8 @@ const youtube = badge && 'youtube' in badge ? badge.youtube : undefined;
               src={img}
               width={544}
               height={306}
-              class="h-full w-full object-cover"
+              class:list={['h-full w-full', imgContain ? 'object-contain' : 'object-cover']}
+              style={imgPosition ? `object-position: ${imgPosition}` : undefined}
               loading="lazy"
             />
           </a>
@@ -41,7 +48,8 @@ const youtube = badge && 'youtube' in badge ? badge.youtube : undefined;
             src={img}
             width={544}
             height={306}
-            class="h-full w-full object-cover"
+            class:list={['h-full w-full', imgContain ? 'object-contain' : 'object-cover']}
+            style={imgPosition ? `object-position: ${imgPosition}` : undefined}
             loading="lazy"
           />
         )}
