@@ -18,13 +18,13 @@ export async function getStaticPaths() {
   }));
 }
 
-interface Props {
+type Props = {
   post: CollectionEntry<'blog'>;
   prevPost: CollectionEntry<'blog'> | null;
   nextPost: CollectionEntry<'blog'> | null;
-}
+};
 
-const { post, prevPost, nextPost } = Astro.props;
+const { post, prevPost, nextPost } = Astro.props as Props;
 const { Content } = await post.render();
 const layout = post.data.layoutType || 'PostSimple';
 

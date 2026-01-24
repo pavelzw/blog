@@ -63,6 +63,7 @@ const fullTitle = title === siteMetadata.title ? title : `${title} | ${siteMetad
 <!-- Umami Analytics -->
 {siteMetadata.analytics.umamiWebsiteId && (
   <script
+    is:inline
     defer
     src="https://analytics.umami.is/script.js"
     data-website-id={siteMetadata.analytics.umamiWebsiteId}

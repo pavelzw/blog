@@ -1,6 +1,4 @@
 ---
-const cvUrl = 'https://github.com/pavelzw/cv/releases/latest/download/english.pdf';
-
-// Redirect via meta refresh for static builds
-return Astro.redirect(cvUrl, 302);
+// Redirect to CV PDF hosted on GitHub releases
+return Astro.redirect('https://github.com/pavelzw/cv/releases/latest/download/english.pdf', 302);
 ---
