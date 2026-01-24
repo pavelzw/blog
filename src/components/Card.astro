@@ -16,6 +16,11 @@ interface Props {
 const { title, description, img, href, badge, imgBgColor, imgContain, imgPosition } = Astro.props;
 const github = badge && 'github' in badge ? badge.github : undefined;
 const youtube = badge && 'youtube' in badge ? badge.youtube : undefined;
+
+// Convert markdown-style formatting to HTML
+const formattedDescription = description
+  .replace(/`([^`]+)`/g, '<code>$1</code>')
+  .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary-500 hover:text-primary-600">$1</a>');
 ---
 
 <div class="w-full p-4 md:w-1/2 md:max-w-[544px]">
@@ -99,7 +104,7 @@ const youtube = badge && 'youtube' in badge ? badge.youtube : undefined;
           </a>
         )}
       </div>
-      <p class="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">{description}</p>
+      <p class="prose mb-3 max-w-none text-gray-500 dark:text-gray-400" set:html={formattedDescription} />
       {href && (
         <a
           href={href}

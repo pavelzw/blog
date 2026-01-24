@@ -137,14 +137,14 @@ export const condaProjects: Project[] = [
 export const otherProjects: Project[] = [
   {
     title: 'The Seven Circles Theorem',
-    description: `As part of the Summer of Maths Exposition 2, I created a video explaining the Seven Circles Theorem.`,
+    description: 'As part of the [Summer of Maths Exposition 2](https://www.3blue1brown.com/blog/some2), I created a video explaining the Seven Circles Theorem.',
     img: sevenCircles,
     href: 'https://youtu.be/m9v0h2ibYpo',
     badge: { youtube: 'https://youtu.be/m9v0h2ibYpo' },
   },
   {
     title: 'polarIFy',
-    description: `A Python function decorator that simplifies the way you write logical statements for Polars. Transform if / elif / else statements into pl.when(..).then(..).otherwise(..) statements.`,
+    description: 'A Python function decorator that simplifies the way you write logical statements for Polars. Transform `if` / `elif` / `else` statements into `pl.when(..).then(..).otherwise(..)` statements.',
     img: polarBear,
     href: '/blog/polarify',
     badge: { github: 'quantco/polarify' },
