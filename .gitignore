@@ -6,6 +6,7 @@
 # build output
 dist/
 .astro/
+.vercel/
 
 # testing
 /coverage
