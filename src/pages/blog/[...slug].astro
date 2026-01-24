@@ -12,16 +12,16 @@ export async function getStaticPaths() {
     params: { slug: post.slug },
     props: {
       post,
-      prevPost: sortedPosts[index + 1] || null,
-      nextPost: sortedPosts[index - 1] || null,
+      prevPost: sortedPosts[index + 1],
+      nextPost: sortedPosts[index - 1],
     },
   }));
 }
 
 type Props = {
   post: CollectionEntry<'blog'>;
-  prevPost: CollectionEntry<'blog'> | null;
-  nextPost: CollectionEntry<'blog'> | null;
+  prevPost?: CollectionEntry<'blog'>;
+  nextPost?: CollectionEntry<'blog'>;
 };
 
 const { post, prevPost, nextPost } = Astro.props as Props;

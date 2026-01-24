@@ -28,6 +28,7 @@ bun run check      # TypeScript check
 ## Code Style
 
 After making changes, run `bun run lint:fix` to run biome.
+Also run `bun run check` to lint the astro code.
 
 ## Project Structure
 
