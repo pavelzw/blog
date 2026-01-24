@@ -4,7 +4,6 @@ import type { ImageMetadata } from 'astro';
 
 interface Props {
   title: string;
-  description: string;
   img?: ImageMetadata;
   href?: string;
   badge?: { github: string } | { youtube: string };
@@ -13,14 +12,9 @@ interface Props {
   imgPosition?: 'top' | 'center' | 'bottom';
 }
 
-const { title, description, img, href, badge, imgBgColor, imgContain, imgPosition } = Astro.props;
+const { title, img, href, badge, imgBgColor, imgContain, imgPosition } = Astro.props;
 const github = badge && 'github' in badge ? badge.github : undefined;
 const youtube = badge && 'youtube' in badge ? badge.youtube : undefined;
-
-// Convert markdown-style formatting to HTML
-const formattedDescription = description
-  .replace(/`([^`]+)`/g, '<code>$1</code>')
-  .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary-500 hover:text-primary-600">$1</a>');
 ---
 
 <div class="w-full p-4 md:w-1/2 md:max-w-[544px]">
@@ -104,13 +98,15 @@ const formattedDescription = description
           </a>
         )}
       </div>
-      <p class="prose mb-3 max-w-none text-gray-500 dark:text-gray-400" set:html={formattedDescription} />
+      <p class="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">
+        <slot />
+      </p>
     </div>
   </div>
 </div>
 
 <script>
-  const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+  const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 1 week
 
   function formatStars(count: number): string {
     if (count >= 1000) {

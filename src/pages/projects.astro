@@ -1,7 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Card from '../components/Card.astro';
-import { condaProjects, otherProjects } from '../data/projectsData';
+
+// Image imports
+import boringGravatars from '../assets/projects/boring-gravatars.svg';
+import comics from '../assets/projects/comics.jpg';
+import anvil from '../assets/projects/conda/anvil.jpg';
+import pixiMirror from '../assets/projects/conda/conda-mirror.png';
+import mamba from '../assets/projects/conda/mamba.jpg';
+import pixiBanner from '../assets/projects/conda/paxton-as-pixi.svg';
+import rattlerBuild from '../assets/projects/conda/paxton-builder-mascot.svg';
+import rattlerImg from '../assets/projects/conda/paxton-rattler.png';
+import pixiDiffToMarkdown from '../assets/projects/conda/pixi-diff-to-markdown.png';
+import pixiPack from '../assets/projects/conda/pixi-pack.png';
+import modernerCv from '../assets/projects/moderner-cv.png';
+import polarBear from '../assets/projects/polar-bear.jpg';
+import pydanticSops from '../assets/projects/pydantic-sops.svg';
+import sevenCircles from '../assets/projects/seven-circles.png';
+import tree from '../assets/projects/tree.jpg';
 ---
 
 <BaseLayout title="Projects">
@@ -20,18 +36,140 @@ import { condaProjects, otherProjects } from '../data/projectsData';
         Conda Ecosystem
       </h2>
       <div class="-m-4 flex flex-wrap">
-        {condaProjects.map((project) => (
-          <Card
-            title={project.title}
-            description={project.description}
-            img={project.img}
-            href={project.href}
-            badge={project.badge}
-            imgBgColor={project.imgBgColor}
-            imgContain={project.imgContain}
-            imgPosition={project.imgPosition}
-          />
-        ))}
+        <Card
+          title="pixi"
+          href="https://github.com/prefix-dev/pixi"
+          badge={{ github: 'prefix-dev/pixi' }}
+          img={pixiBanner}
+          imgBgColor="#f3d140"
+          imgContain
+        >
+          A modern cross-platform package manager for the Conda ecosystem with a focus on simplicity, speed, and reproducibility.
+        </Card>
+
+        <Card
+          title="rattler-build"
+          href="https://github.com/prefix-dev/rattler-build"
+          badge={{ github: 'prefix-dev/rattler-build' }}
+          img={rattlerBuild}
+          imgBgColor="#f3d140"
+          imgContain
+        >
+          A fast, standalone Conda package builder written in Rust that creates cross-platform relocatable packages from a simple recipe format.
+        </Card>
+
+        <Card
+          title="rattler"
+          href="https://github.com/conda/rattler"
+          badge={{ github: 'conda/rattler' }}
+          img={rattlerImg}
+          imgBgColor="#f3d140"
+          imgContain
+        >
+          A collection of Rust crates to work with the Conda ecosystem. This library powers all modern Rust-based tooling in the Conda ecosystem.
+        </Card>
+
+        <Card
+          title="conda-forge"
+          href="https://github.com/search?type=code&q=owner%3Aconda-forge+path%3Arecipe%2Frecipe.yaml+pavelzw"
+          img={anvil}
+        >
+          The backbone of the Conda ecosystem. It consists of over 30,000 packages for Linux, macOS and Windows.
+        </Card>
+
+        <Card
+          title="pixi-diff-to-markdown"
+          href="https://github.com/pavelzw/pixi-diff-to-markdown"
+          badge={{ github: 'pavelzw/pixi-diff-to-markdown' }}
+          img={pixiDiffToMarkdown}
+        >
+          Convert lockfile diffs to markdown for use in pull request comments.
+        </Card>
+
+        <Card
+          title="setup-pixi"
+          href="https://github.com/prefix-dev/setup-pixi"
+          badge={{ github: 'prefix-dev/setup-pixi' }}
+        >
+          Install Pixi and create a cached Pixi environment in GitHub Actions.
+        </Card>
+
+        <Card
+          title="setup-micromamba"
+          href="https://github.com/mamba-org/setup-micromamba"
+          badge={{ github: 'mamba-org/setup-micromamba' }}
+          img={mamba}
+        >
+          Install Micromamba and create a cached Conda environment in GitHub Actions.
+        </Card>
+
+        <Card
+          title="pixi-pack"
+          href="https://github.com/quantco/pixi-pack"
+          badge={{ github: 'quantco/pixi-pack' }}
+          img={pixiPack}
+          imgBgColor="#343434"
+          imgContain
+        >
+          Pack and unpack Pixi environments for easy distribution.
+        </Card>
+
+        <Card
+          title="conda-mirror"
+          href="https://github.com/conda-incubator/conda-mirror"
+          badge={{ github: 'conda-incubator/conda-mirror' }}
+          img={pixiMirror}
+        >
+          Create a local or S3-based mirrors of Conda channels for offline or air-gapped environments.
+        </Card>
+
+        <Card
+          title="conda-deny"
+          href="https://github.com/quantco/conda-deny"
+          badge={{ github: 'quantco/conda-deny' }}
+        >
+          Check your Conda environment for packages with disallowed licenses.
+        </Card>
+
+        <Card
+          title="pixi-diff"
+          href="https://github.com/pavelzw/pixi-diff"
+          badge={{ github: 'pavelzw/pixi-diff' }}
+        >
+          Show the difference between two Pixi lock files.
+        </Card>
+
+        <Card
+          title="pixi-inject"
+          href="https://github.com/pavelzw/pixi-inject"
+          badge={{ github: 'pavelzw/pixi-inject' }}
+        >
+          Inject Conda packages into a Pixi environment.
+        </Card>
+
+        <Card
+          title="pixi-install-to-prefix"
+          href="https://github.com/pavelzw/pixi-install-to-prefix"
+          badge={{ github: 'pavelzw/pixi-install-to-prefix' }}
+        >
+          Install a pixi environment into an arbitrary location.
+        </Card>
+
+        <Card
+          title="pixi-docker"
+          href="https://github.com/prefix-dev/pixi-docker"
+          badge={{ github: 'prefix-dev/pixi-docker' }}
+        >
+          Docker images with Pixi pre-installed.
+        </Card>
+
+        <Card
+          title="pixi-pycharm"
+          href="https://github.com/pavelzw/pixi-pycharm"
+          badge={{ github: 'pavelzw/pixi-pycharm' }}
+        >
+          Work around the lack of Pixi support in PyCharm.
+        </Card>
       </div>
     </div>
 
@@ -40,18 +178,73 @@ import { condaProjects, otherProjects } from '../data/projectsData';
         Other Projects
       </h2>
       <div class="-m-4 flex flex-wrap">
-        {otherProjects.map((project) => (
-          <Card
-            title={project.title}
-            description={project.description}
-            img={project.img}
-            href={project.href}
-            badge={project.badge}
-            imgBgColor={project.imgBgColor}
-            imgContain={project.imgContain}
-            imgPosition={project.imgPosition}
-          />
-        ))}
+        <Card
+          title="The Seven Circles Theorem"
+          href="https://youtu.be/m9v0h2ibYpo"
+          badge={{ youtube: 'https://youtu.be/m9v0h2ibYpo' }}
+          img={sevenCircles}
+        >
+          As part of the <a href="https://www.3blue1brown.com/blog/some2" class="text-primary-500 hover:text-primary-600">Summer of Maths Exposition 2</a>, I created a video explaining the Seven Circles Theorem.
+        </Card>
+
+        <Card
+          title="polarIFy"
+          href="/blog/polarify"
+          badge={{ github: 'quantco/polarify' }}
+          img={polarBear}
+        >
+          A Python function decorator that simplifies the way you write logical statements for Polars. Transform <code>if</code> / <code>elif</code> / <code>else</code> statements into <code>pl.when(..).then(..).otherwise(..)</code> statements.
+        </Card>
+
+        <Card
+          title="moderner-cv"
+          href="https://github.com/pavelzw/moderner-cv"
+          badge={{ github: 'pavelzw/moderner-cv' }}
+          img={modernerCv}
+          imgPosition="top"
+        >
+          A modern CV template for Typst, inspired by <code>moderncv</code> for LaTeX.
+        </Card>
+
+        <Card
+          title="Slim Trees"
+          href="/blog/slim-trees"
+          badge={{ github: 'quantco/slim-trees' }}
+          img={tree}
+        >
+          Save and load compressed scikit-learn Tree-based and lightgbm models.
+        </Card>
+
+        <Card
+          title="Calibre Kindle Comics"
+          href="https://github.com/pavelzw/calibre-kindle-comics"
+          badge={{ github: 'pavelzw/calibre-kindle-comics' }}
+          img={comics}
+        >
+          Convert CZB and CBR files to Kindle-optimized Mobi directly within Calibre.
+        </Card>
+
+        <Card
+          title="pydantic-settings-sops"
+          href="https://github.com/pavelzw/pydantic-settings-sops"
+          badge={{ github: 'pavelzw/pydantic-settings-sops' }}
+          img={pydanticSops}
+          imgBgColor="#1e1e2e"
+          imgContain
+        >
+          Load secrets from SOPS encrypted files with <code>pydantic-settings</code>.
+        </Card>
+
+        <Card
+          title="boring-gravatars"
+          href="https://github.com/pavelzw/boring-gravatars"
+          badge={{ github: 'pavelzw/boring-gravatars' }}
+          img={boringGravatars}
+          imgBgColor="#232135"
+          imgContain
+        >
+          Generate unique Gravatar-style avatars from email addresses using the <code>boring-avatars</code> library.
+        </Card>
       </div>
     </div>
   </div>
