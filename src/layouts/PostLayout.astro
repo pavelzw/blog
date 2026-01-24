@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import Giscus from '../components/Giscus.astro';
 import { siteMetadata } from '../data/siteMetadata';
 import type { CollectionEntry } from 'astro:content';
 
@@ -66,6 +67,7 @@ const { title, date, summary } = post.data;
           <div class="prose max-w-none pb-8 pt-10 dark:prose-invert">
             <slot />
           </div>
+          <Giscus />
         </div>
         <footer>
           <div class="divide-gray-200 text-sm font-medium leading-5 dark:divide-gray-700 xl:col-start-1 xl:row-start-2 xl:divide-y">

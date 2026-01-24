@@ -1,0 +1,40 @@
+---
+// Giscus comments component with dark/light mode sync
+---
+
+<div class="giscus mt-10">
+  <script
+    is:inline
+    src="https://giscus.app/client.js"
+    data-repo="pavelzw/blog"
+    data-repo-id="R_kgDOKL3UFQ"
+    data-category="General"
+    data-category-id="DIC_kwDOKL3UFc4CY52a"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="light"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+  ></script>
+</div>
+
+<script is:inline>
+  function updateGiscusTheme() {
+    const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe) return;
+    iframe.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app');
+  }
+
+  // Watch for theme changes on the html element
+  const observer = new MutationObserver(updateGiscusTheme);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+  // Initial theme sync after page load
+  window.addEventListener('load', updateGiscusTheme);
+</script>

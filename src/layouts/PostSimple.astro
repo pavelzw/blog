@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import Giscus from '../components/Giscus.astro';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -36,6 +37,7 @@ const { title, date, summary } = post.data;
       <div class="prose max-w-none pb-8 pt-10 dark:prose-invert">
         <slot />
       </div>
+      <Giscus />
       <footer>
         <div class="flex flex-col text-sm font-medium sm:flex-row sm:justify-between sm:text-base">
           {prevPost && (

@@ -59,8 +59,6 @@ input:-webkit-autofill:focus {
 }
 
 .color-background {
-  left: 50%;
-  transform: translateX(-50%);
   background: radial-gradient(
       at 71% 77%,
       var(--color-gradient-1) 0,
@@ -77,8 +75,6 @@ input:-webkit-autofill:focus {
 }
 
 .color-background-2 {
-  left: 50%;
-  transform: translateX(-50%) rotate(5deg);
   background: radial-gradient(
       at 83% 25%,
       var(--color-gradient-1) 0,

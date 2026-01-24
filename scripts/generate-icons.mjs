@@ -31,7 +31,9 @@ const twitterCardSvg = `
     </g>
     
     <!-- Blog title (right of icon) -->
-    <text x="-40" y="20" font-family="Space Grotesk, ui-sans-serif, system-ui, sans-serif" font-size="80" font-weight="700" fill="#111" text-anchor="start">pavel.pink</text>
+    <text x="-40" y="20" font-family="Space Grotesk, ui-sans-serif, system-ui, sans-serif" font-size="80" font-weight="700" text-anchor="start">
+      <tspan fill="#111">pavel</tspan><tspan fill="#f472b6">.pink</tspan>
+    </text>
   </g>
 </svg>
 `;
