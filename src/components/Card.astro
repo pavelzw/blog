@@ -17,25 +17,29 @@ const { title, description, imgSrc, href } = Astro.props;
     ]}
   >
     {imgSrc && (
-      href ? (
-        <a href={href} aria-label={`Link to ${title}`}>
+      <div class="aspect-video bg-gray-100 dark:bg-gray-800">
+        {href ? (
+          <a href={href} aria-label={`Link to ${title}`}>
+            <img
+              alt={title}
+              src={imgSrc}
+              class="h-full w-full object-cover object-center"
+              width={544}
+              height={306}
+              loading="lazy"
+            />
+          </a>
+        ) : (
           <img
             alt={title}
             src={imgSrc}
-            class="object-cover object-center md:h-36 lg:h-48 w-full"
+            class="h-full w-full object-cover object-center"
             width={544}
             height={306}
+            loading="lazy"
           />
-        </a>
-      ) : (
-        <img
-          alt={title}
-          src={imgSrc}
-          class="object-cover object-center md:h-36 lg:h-48 w-full"
-          width={544}
-          height={306}
-        />
-      )
+        )}
+      </div>
     )}
     <div class="p-6">
       <h2 class="mb-3 text-2xl font-bold leading-8 tracking-tight">
