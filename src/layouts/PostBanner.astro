@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Giscus from '../components/Giscus.astro';
@@ -11,20 +12,20 @@ interface Props {
 }
 
 const { post, prevPost, nextPost } = Astro.props;
-const { title, date, summary, images } = post.data;
-const bannerImage = images?.[0];
+const { title, date, summary, bannerImage } = post.data;
 ---
 
-<BaseLayout title={title} description={summary} image={bannerImage} article={true}>
+<BaseLayout title={title} description={summary} article={true}>
   <article>
     <div>
       {bannerImage && (
         <div class="w-full">
-          <div class="relative aspect-[2/1] w-full">
-            <img
+          <div class="relative aspect-[2/1] w-full overflow-hidden">
+            <Image
               src={bannerImage}
               alt={title}
               class="object-cover w-full h-full"
+              loading="eager"
             />
           </div>
         </div>

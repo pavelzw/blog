@@ -4,6 +4,7 @@ import mamba from '../assets/projects/mamba.jpg';
 import sevenCircles from '../assets/projects/seven-circles.png';
 import tree from '../assets/projects/tree.jpg';
 import comics from '../assets/projects/comics.jpg';
+import polarBear from '../assets/projects/polar-bear.jpg';
 
 export const projectsData = [
   {
@@ -34,6 +35,14 @@ export const projectsData = [
     I created a video explaining the Seven Circles Theorem. The video was created using manim.`,
     img: sevenCircles,
     href: 'https://youtu.be/m9v0h2ibYpo',
+  },
+  {
+    title: 'polarIFy',
+    description: `polarIFy is a Python function decorator that simplifies the way you write
+    logical statements for Polars. With polarIFy, you can use Python's language structures
+    like if / elif / else statements and transform them into pl.when(..).then(..).otherwise(..) statements.`,
+    img: polarBear,
+    href: '/blog/polarify',
   },
   {
     title: 'Slim Trees',
