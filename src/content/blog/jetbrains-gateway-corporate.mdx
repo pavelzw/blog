@@ -10,6 +10,12 @@ layoutType: PostBanner
 ---
 
 import ThemedImage from '../../components/ThemedImage.astro';
+import gateway1Light from '../../assets/blog/jetbrains-gateway-corporate/gateway-1-light.png';
+import gateway1Dark from '../../assets/blog/jetbrains-gateway-corporate/gateway-1-dark.png';
+import gateway2Light from '../../assets/blog/jetbrains-gateway-corporate/gateway-2-light.png';
+import gateway2Dark from '../../assets/blog/jetbrains-gateway-corporate/gateway-2-dark.png';
+import gateway3Light from '../../assets/blog/jetbrains-gateway-corporate/gateway-3-light.png';
+import gateway3Dark from '../../assets/blog/jetbrains-gateway-corporate/gateway-3-dark.png';
 
 When you have worked in a corporate environment, you know that deploying stuff can
 be challenging.
@@ -38,18 +44,14 @@ Gateway is pretty straightforward.
 
 <ThemedImage
   alt="Connection Screen"
-  lightSrc="/static/images/jetbrains-gateway-corporate/gateway-1-light.png"
-  darkSrc="/static/images/jetbrains-gateway-corporate/gateway-1-dark.png"
-  width={912}
-  height={762}
+  lightSrc={gateway1Light}
+  darkSrc={gateway1Dark}
 />
 
 <ThemedImage
   alt="Connection Screen"
-  lightSrc="/static/images/jetbrains-gateway-corporate/gateway-2-light.png"
-  darkSrc="/static/images/jetbrains-gateway-corporate/gateway-2-dark.png"
-  width={1897}
-  height={967}
+  lightSrc={gateway2Light}
+  darkSrc={gateway2Dark}
 />
 
 ## Taking a closer look
@@ -159,10 +161,8 @@ You can also provide your IDE a custom JAR by clicking on the plus sign in the
 
 <ThemedImage
   alt="Connection Screen"
-  lightSrc="/static/images/jetbrains-gateway-corporate/gateway-3-light.png"
-  darkSrc="/static/images/jetbrains-gateway-corporate/gateway-3-dark.png"
-  width={912}
-  height={788}
+  lightSrc={gateway3Light}
+  darkSrc={gateway3Dark}
 />
 
 ### Plugins
