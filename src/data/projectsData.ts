@@ -150,6 +150,14 @@ export const otherProjects: Project[] = [
     badge: { github: 'quantco/polarify' },
   },
   {
+    title: 'moderner-cv',
+    description: `A modern CV template for Typst, inspired by moderncv for LaTeX.`,
+    href: 'https://github.com/pavelzw/moderner-cv',
+    badge: { github: 'pavelzw/moderner-cv' },
+    img: modernerCv,
+    imgPosition: 'top',
+  },
+  {
     title: 'Slim Trees',
     description: `Save and load compressed scikit-learn Tree-based and lightgbm models.`,
     img: tree,
@@ -171,14 +179,6 @@ export const otherProjects: Project[] = [
     img: pydanticSops,
     imgBgColor: '#1e1e2e',
     imgContain: true,
-  },
-  {
-    title: 'moderner-cv',
-    description: `A modern CV template for Typst, inspired by moderncv for LaTeX.`,
-    href: 'https://github.com/pavelzw/moderner-cv',
-    badge: { github: 'pavelzw/moderner-cv' },
-    img: modernerCv,
-    imgPosition: 'top',
   },
   {
     title: 'boring-gravatars',
