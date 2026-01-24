@@ -1,41 +1,44 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 interface Props {
   title: string;
   description: string;
-  imgSrc?: string;
+  img?: ImageMetadata;
   href?: string;
 }
 
-const { title, description, imgSrc, href } = Astro.props;
+const { title, description, img, href } = Astro.props;
 ---
 
 <div class="max-w-[544px] p-4 md:w-1/2">
   <div
     class:list={[
       'overflow-hidden rounded-md border-2 border-gray-200/60 dark:border-gray-700',
-      imgSrc && 'h-full',
+      img && 'h-full',
     ]}
   >
-    {imgSrc && (
-      <div class="aspect-video bg-gray-100 dark:bg-gray-800">
+    {img && (
+      <div class="aspect-video overflow-hidden">
         {href ? (
           <a href={href} aria-label={`Link to ${title}`}>
-            <img
+            <Image
               alt={title}
-              src={imgSrc}
-              class="h-full w-full object-cover object-center"
+              src={img}
               width={544}
               height={306}
+              class="h-full w-full object-cover"
               loading="lazy"
             />
           </a>
         ) : (
-          <img
+          <Image
             alt={title}
-            src={imgSrc}
-            class="h-full w-full object-cover object-center"
+            src={img}
             width={544}
             height={306}
+            class="h-full w-full object-cover"
             loading="lazy"
           />
         )}
