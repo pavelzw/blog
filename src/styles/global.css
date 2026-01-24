@@ -1,6 +1,34 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-primary-50: #fdf2f8;
+  --color-primary-100: #fce7f3;
+  --color-primary-200: #fbcfe8;
+  --color-primary-300: #f9a8d4;
+  --color-primary-400: #f472b6;
+  --color-primary-500: #ec4899;
+  --color-primary-600: #db2777;
+  --color-primary-700: #be185d;
+  --color-primary-800: #9d174d;
+  --color-primary-900: #831843;
+  --color-primary-950: #500724;
+  
+  --color-gradient-1: #7D7AFF;
+  --color-gradient-2: #2121E2;
+  --color-gradient-3: #FF76B8;
+  --color-gradient-4: #001AFF;
+  
+  --line-height-11: 2.75rem;
+  --line-height-12: 3rem;
+  --line-height-13: 3.25rem;
+  --line-height-14: 3.5rem;
+}
 
 .task-list-item::before {
   @apply hidden;
@@ -35,15 +63,15 @@ input:-webkit-autofill:focus {
   transform: translateX(-50%);
   background: radial-gradient(
       at 71% 77%,
-      theme('colors.gradient-1') 0,
+      var(--color-gradient-1) 0,
       transparent 21%
     ),
-    radial-gradient(at 36% 47%, theme('colors.gradient-3') 0, transparent 50%),
-    radial-gradient(at 54% 29%, theme('colors.gradient-3') 0, transparent 28%),
-    radial-gradient(at 45% 51%, theme('colors.gradient-1') 0, transparent 53%),
-    radial-gradient(at 73% 44%, theme('colors.gradient-2') 0, transparent 54%),
-    radial-gradient(at 24% 7%, theme('colors.gradient-2') 0, transparent 40%),
-    radial-gradient(at 76% 46%, theme('colors.gradient-1') 0, transparent 50%);
+    radial-gradient(at 36% 47%, var(--color-gradient-3) 0, transparent 50%),
+    radial-gradient(at 54% 29%, var(--color-gradient-3) 0, transparent 28%),
+    radial-gradient(at 45% 51%, var(--color-gradient-1) 0, transparent 53%),
+    radial-gradient(at 73% 44%, var(--color-gradient-2) 0, transparent 54%),
+    radial-gradient(at 24% 7%, var(--color-gradient-2) 0, transparent 40%),
+    radial-gradient(at 76% 46%, var(--color-gradient-1) 0, transparent 50%);
   filter: blur(40px);
   z-index: -1;
 }
@@ -53,15 +81,15 @@ input:-webkit-autofill:focus {
   transform: translateX(-50%) rotate(5deg);
   background: radial-gradient(
       at 83% 25%,
-      theme('colors.gradient-1') 0,
+      var(--color-gradient-1) 0,
       transparent 21%
     ),
-    radial-gradient(at 36% 47%, theme('colors.gradient-3') 0, transparent 50%),
-    radial-gradient(at 79% 45%, theme('colors.gradient-3') 0, transparent 28%),
-    radial-gradient(at 66% 38%, theme('colors.gradient-1') 0, transparent 53%),
-    radial-gradient(at 89% 13%, theme('colors.gradient-2') 0, transparent 54%),
-    radial-gradient(at 24% 7%, theme('colors.gradient-2') 0, transparent 40%),
-    radial-gradient(at 76% 46%, theme('colors.gradient-1') 0, transparent 50%);
+    radial-gradient(at 36% 47%, var(--color-gradient-3) 0, transparent 50%),
+    radial-gradient(at 79% 45%, var(--color-gradient-3) 0, transparent 28%),
+    radial-gradient(at 66% 38%, var(--color-gradient-1) 0, transparent 53%),
+    radial-gradient(at 89% 13%, var(--color-gradient-2) 0, transparent 54%),
+    radial-gradient(at 24% 7%, var(--color-gradient-2) 0, transparent 40%),
+    radial-gradient(at 76% 46%, var(--color-gradient-1) 0, transparent 50%);
   filter: blur(40px);
   z-index: -1;
 }
