@@ -107,7 +107,24 @@ input:-webkit-autofill:focus {
   @apply max-h-96;
 }
 
-/* KaTeX styling */
-.katex-display {
-  @apply overflow-x-auto overflow-y-hidden;
+/* Typst math SVG styling */
+svg.typst-doc {
+  --glyph_fill: currentColor;
+  --glyph_stroke: currentColor;
+}
+
+svg.typst-doc .typst-text {
+  fill: currentColor;
+}
+
+svg.typst-doc .typst-shape {
+  stroke: currentColor;
+}
+
+.prose p svg.typst-doc {
+  display: inline;
+}
+
+.prose .typst-doc {
+  @apply overflow-x-auto;
 }
