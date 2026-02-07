@@ -245,18 +245,14 @@ In our productive example, the `threshold` array contained 4000 elements with
 65-70% of them being half integers.
 This leads to a theoretical compression of
 
-$$
-\frac{
-    4000 \cdot 0.65 \cdot 8\;\mathrm{Bit}
-    + 4000 \cdot 0.35 \cdot 64\;\mathrm{Bit} + 4000 \cdot 1\;\mathrm{Bit}
-}{
-    4000 \cdot 64\;\mathrm{Bit}
-}
-= \frac{0.65 \cdot 8 + 0.35 \cdot 64 + 1}{64} \approx 0.45
-$$
+```math
+  (4000 dot 0.65 dot 8 thin "Bit" + 4000 dot 0.35 dot 64 thin "Bit" + 4000 dot 1 thin "Bit") /
+  (4000 dot 64 thin "Bit")
+= (0.65 dot 8 + 0.35 dot 64 + 1) / 64 approx 0.45
+```
 
 compared to the `float32` compression of
-$ 32\;\mathrm{Bit} / 64\;\mathrm{Bit} = 0.5 $.
+$frac(32 thin "Bit", 64 thin "Bit", style: "horizontal") = 0.5$.
 So better theoretical compression performance while staying lossless.
 
 ## Further optimizations
