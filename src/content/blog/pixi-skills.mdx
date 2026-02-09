@@ -1,0 +1,219 @@
+---
+title: Managing Agent Skills with Your Package Manager
+date: '2026-02-10'
+tags: ['claude-code', 'pixi', 'conda', 'ai-agents']
+summary: AI coding agents use skills — markdown files that teach them domain-specific tasks.
+  We publish ours as conda packages and manage them with pixi, getting versioning, lockfiles,
+  and supply chain security for free.
+badges:
+  - github: pavelzw/pixi-skills
+    label: pixi-skills
+  - github: pavelzw/skill-forge
+    label: skill-forge
+bannerImage: ../../assets/blog/blackboard.jpg
+layoutType: PostBanner
+---
+
+AI coding agents like Claude Code can be extended with _skills_, markdown files
+that contain domain-specific instructions for how to approach certain tasks.
+A skill for polars, for example, might teach the agent to prefer lazy evaluation,
+use `collect` sparingly, and follow specific patterns for joins.
+
+Skills are just text files. But as your team grows and you accumulate more of them,
+managing these text files becomes a real problem.
+
+# The state of the art
+
+One of the current approaches is [skills.sh], a community registry that lets you
+fetch skills with a single command:
+
+```bash
+npx skills add https://github.com/davila7/claude-code-templates --skill polars
+```
+
+This downloads the skill markdown file into your project and you're done.
+Simple and effective for getting started.
+
+## What's missing
+
+As soon as skills become part of real workflows, across projects, teams, or corporate environments, a few problems emerge:
+
+1. **Markdown sprawl in git.** Skills are vendored into your repository. Every
+   project gets its own copy. Updates mean committing diffs of markdown files
+   you didn't write. Your git history fills up with skill updates that have
+   nothing to do with your project.
+
+2. **No version pinning.** `npx skills add` fetches from `main`. There's no
+   lockfile, no version constraint. A skill that worked yesterday might behave
+   differently today because someone pushed an update upstream. If a skill is
+   updated to target a new major version of a library, your project breaks
+   silently and the agent just starts writing code for an API you're not using.
+
+3. **Enterprise environments.** In locked-down corporate networks, access to
+   github.com may be restricted or unavailable. Getting skills
+   into these environments requires manual workarounds.
+
+4. **Supply chain security.** Skills are instructions an AI agent follows.
+   A malicious skill could subtly steer an agent toward specific commercial services, leak information through generated code, or introduce unsafe patterns.
+   You might install a polars skill that injects adversarial context: the [`K-Dense-AI/claude-scientific-skills` polars skill][supply-chain-example] does just that!
+   Skills can also [spread hallucinated package names][aikido-hallucinated-npx]: an LLM-generated skill referenced a non-existent npm package, got copy-pasted across 200+ repositories, and agents started trying to install it, creating a supply chain attack vector.
+   A mature packaging ecosystem is a possible way to mitigate some of these problems.
+   It might offer well-defined release processes, auditability and change history to be able to track changes and ensure integrity.
+
+These are not hypothetical problems. These are exactly the problems software package management solved decades ago.
+
+# Skills as packages
+
+Turns out: skills are text files. Software packages exist to distribute text files. Package managers already handle versioning, locking, distribution, and security. So why not ship skills as packages?
+
+We use [pixi] for dependency management across our projects. Since pixi is built on
+the conda ecosystem and is language-agnostic, it can manage any kind of package,
+including ones that just contain markdown files.
+
+## Creating a skill package
+
+A conda package for a skill is straightforward. Here's a `recipe.yaml` for a
+polars skill:
+
+```yaml
+schema_version: 1
+
+package:
+  name: agent-skill-polars
+  version: "0.2.0"
+
+build:
+  noarch: generic
+  script:
+    - mkdir -p $PREFIX/share/agent-skills/polars
+    - cp $RECIPE_DIR/SKILL.md $PREFIX/share/agent-skills/polars/
+    - cp -R $RECIPE_DIR/references $PREFIX/share/agent-skills/polars/
+
+requirements:
+  run_constraints:
+    - polars >=1.38.0,<2.0
+
+about:
+  summary: Agent skill for writing polars code
+  license: MIT
+```
+
+```text no-copy
+$CONDA_PREFIX/share/agent-skills/polars
+├── references
+│   ├── best_practices.md
+│   ├── ...
+│   └── transformations
+└── SKILL.md
+```
+
+The `noarch: generic` build means this package is platform-independent — it's
+just markdown files. The skill files get installed to `share/agent-skills/`
+in the conda prefix.
+
+The interesting part is `run_constraints`. This tells the solver: _if_ polars
+is installed in this environment, it must be `>=1.38.0,<2.0`. The skill package
+doesn't pull in polars as a dependency, but it ensures that the skill matches
+the version of the library you're actually using. If you're on polars 0.x,
+the solver will refuse to install this skill: you'd need `agent-skill-polars` of a different version targeting the older API instead.
+
+### Do it yourself
+
+You can ship your own skills! Here is a prompt for your favorite agent that can be used to create a skill.
+
+> I would like to create a skill for `scikit-learn`. Do it in the same way as described in `https://github.com/pavelzw/skill-forge/blob/main/AGENTS.md`.
+
+## Installing skills
+
+Adding skills to a project is now just a pixi dependency:
+
+```toml title="pixi.toml"
+[workspace]
+channels = ["conda-forge", "https://prefix.dev/skill-forge"]
+platforms = ["linux-64", "osx-arm64", "win-64"]
+
+[dependencies]
+polars = ">=1,<2"
+agent-skill-polars = "*"
+```
+
+```bash
+pixi install
+```
+
+The skill version is pinned in `pixi.lock` alongside all your other dependencies.
+It is reproducible across machines and across time.
+
+We maintain a set of pre-packaged skills on the conda channel [prefix.dev/skill-forge][skill-forge].
+As mentioned above, skills can lead to arbitrary code execution, so please always read through them before using them.
+
+## `pixi-skills`: connecting skills to your agent
+
+Installed packages end up in `.pixi/envs/default/`. My friend [Moritz][moritzwilksch] and I wrote a small tool ([pavelzw/pixi-skills][pixi-skills]) that can symlink the skill files from there to wherever your agent expects them:
+
+```bash
+pixi exec pixi-skills manage
+```
+
+This scans the installed packages for files under `share/agent-skills/` and
+symlinks them into your project's skill directory. The tool is trivial because the heavy lifting is done by the package manager.
+
+## What this gets us
+
+1. **No markdown bloat in git.** Skills are installed dependencies, not vendored files.
+   Your `.gitignore` covers the `.pixi/` directory and skill symlinks, so you stop committing other people’s markdown.
+
+2. **Versions are pinned.** `pixi.lock` pins the exact skill version, just like
+   any other dependency. Updates are intentional — you run `pixi update agent-skill-polars`
+   when you're ready. And with `run_constraints`, a skill can express compatibility
+   with the library it targets.
+
+3. **Enterprise distribution works.** You probably already have infrastructure for
+   distributing packages internally, like [Artifactory][artifactory], an [S3-backed conda channel][s3-pixi], or a [conda-mirror].
+   Skills move through the same channels as your other packages, with no special cases.
+
+4. **Your existing supply chain security applies.** Package signing[^1], review workflows,
+   vulnerability scanning, access controls — whatever you've built for managing
+   software packages now applies to skills too. You can audit a skill before publishing
+   it to your internal channel, and restrict which skill packages are approved
+   for use.
+
+## Drawbacks
+
+Since your skills are no longer tracked in Git, you cannot manually edit them and expect that these changes persist across devices.
+If you want to edit a skill, you would need to update the package underneath it.
+With a [solid packaging flow][skill-forge-packaging-workflow], this shouldn't be a problem, though.
+
+The skills only become available after cloning once you run `pixi install`.
+For local development (for example via the Claude Code CLI), this is not an issue since you are running your code anyway.
+For remote development, it depends on the specific setup and infrastructure you are using.
+At the time of writing, in the Codex desktop app, you can specify custom setup scripts where you could add `pixi install`. When using Codex with multiple worktrees locally, the skills get picked up automatically.
+Strangely, this is not the case with the Codex web version (and mobile app). There, it doesn't find the skills after running `pixi install`.
+
+The Claude Code web application (and mobile app) currently do not support this workflow.
+There, you can create environments like in Codex but unfortunately, it's only possible to create environment variables and not run custom setup scripts.
+You could instruct your agent via an `AGENTS.md` file to run `pixi install` and look for skills in those locations.
+
+## Outlook
+
+Everything described here is pixi-specific, but the core idea applies to any package
+manager. pip or uv could install skill packages into `.venv/share/agent-skills/`.
+bun or npm could write them to `node_modules/`. The details change, the principle does not.
+
+Skills are text files. Managing text files at scale is a solved problem.
+The practices we built over decades for shipping software like versioning, lockfiles, registries, signing, and reviews, map directly onto distributing agent instructions.
+
+[^1]: Package signing is not yet fully supported by the Conda ecosystem but [in the works][cep-package-signing].
+
+[aikido-hallucinated-npx]: https://www.aikido.dev/blog/agent-skills-spreading-hallucinated-npx-commands
+[artifactory]: https://jfrog.com/artifactory
+[cep-package-signing]: https://github.com/conda/ceps/pull/142
+[conda-mirror]: https://github.com/conda-incubator/conda-mirror
+[moritzwilksch]: https://moritzwilksch.de
+[pixi]: https://pixi.sh
+[pixi-skills]: https://github.com/pavelzw/pixi-skills
+[s3-pixi]: https://prefix.dev/blog/s3-support-in-the-conda-ecosystem-pixi-and-co
+[skill-forge]: https://prefix.dev/channels/skill-forge
+[skill-forge-packaging-workflow]: https://github.com/pavelzw/skill-forge/blob/main/.github/workflows/package.yml
+[skills.sh]: https://skills.sh
+[supply-chain-example]: https://github.com/K-Dense-AI/claude-scientific-skills/blob/3a5f2e2227d64679bbe998acfea53007102b4d94/scientific-skills/polars/SKILL.md?plain=1#L386-L387

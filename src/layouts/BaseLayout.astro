@@ -22,8 +22,8 @@ const { title, description, image, article } = Astro.props;
   </head>
   <body class="bg-white text-black antialiased dark:bg-gray-950 dark:text-white">
     <!-- Fixed top gradient -->
-    <GradientBackground class="fixed top-0 left-1/2 -translate-x-1/2 h-[30rem] w-full max-w-5xl xl:max-w-7xl pointer-events-none" variant="top" />
-    
+    <GradientBackground class="fixed top-0 left-1/2 -translate-x-1/2 h-120 w-full max-w-5xl xl:max-w-7xl pointer-events-none" variant="top" />
+
     <div class="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0">
       <div class="flex min-h-screen flex-col justify-between font-sans">
         <Header />
@@ -32,8 +32,26 @@ const { title, description, image, article } = Astro.props;
         </main>
         <Footer />
         <!-- Bottom gradient scrolls with content, positioned below footer -->
-        <GradientBackground class="relative -mt-32 h-[20rem] w-full rotate-[5deg] pointer-events-none" variant="bottom" />
+        <GradientBackground class="relative -mt-32 h-80 w-full rotate-[5deg] pointer-events-none" variant="bottom" />
       </div>
     </div>
+    <script>
+      document.addEventListener('click', (e) => {
+        const btn = (e.target as Element).closest('.copy-btn');
+        if (!(btn instanceof HTMLElement)) return;
+        const pre = btn.closest('pre');
+        if (!pre) return;
+        const code = pre.querySelector('code');
+        const text = (code || pre).textContent || '';
+        navigator.clipboard.writeText(text).then(() => {
+          btn.classList.add('copied');
+          btn.innerHTML = btn.dataset.checkIcon || '';
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = btn.dataset.copyIcon || '';
+          }, 2000);
+        });
+      });
+    </script>
   </body>
 </html>
