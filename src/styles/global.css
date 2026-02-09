@@ -97,14 +97,14 @@ input:-webkit-autofill:focus {
   @apply text-primary-500 hover:text-primary-600 dark:hover:text-primary-400;
 }
 
-.prose code {
+.prose :not(pre) > code {
   @apply text-indigo-500;
 }
 
 /* Light mode: opaque, Dark mode: semi-transparent */
 .prose pre {
   position: relative;
-  background-color: #1f2937 !important; /* gray-800 */
+  background-color: #1e1e2e !important; /* catppuccin mocha base */
 }
 
 /* Copy button (disable per-block via ```lang no-copy) */
@@ -146,7 +146,7 @@ input:-webkit-autofill:focus {
 }
 
 :is(.dark .prose pre) {
-  background-color: rgba(0, 0, 0, 0.5) !important;
+  background-color: #1e1e2e !important; /* catppuccin mocha base */
 }
 
 /* Code block title bar */
@@ -166,7 +166,7 @@ input:-webkit-autofill:focus {
   font-family: ui-sans-serif, system-ui, sans-serif;
   font-size: 0.8rem;
   color: #9ca3af;
-  border-bottom: 1px solid #374151;
+  border-bottom: 1px solid #313244; /* catppuccin mocha surface0 */
 }
 
 /* Constrain image/SVG sizes in prose */

@@ -26,7 +26,7 @@ export default defineConfig({
       [rehypePrismPlus, { ignoreMissing: true }],
     ],
     shikiConfig: {
-      theme: 'github-dark',
+      theme: 'catppuccin-mocha',
       transformers: [shikiTitleTransformer()],
     },
   },
