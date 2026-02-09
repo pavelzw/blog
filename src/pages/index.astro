@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../components/FormattedDate.astro';
+import Badge from '../components/Badge.astro';
 import { siteMetadata } from '../data/siteMetadata';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
@@ -20,15 +21,16 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
     </div>
     <ul class="divide-y divide-gray-200 dark:divide-gray-700">
       {posts.map((post) => {
-        const { date, title, summary } = post.data;
+        const { date, title, summary, badges } = post.data;
         return (
           <li class="py-12">
             <article>
               <div class="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                 <dl>
                   <dt class="sr-only">Published on</dt>
-                  <dd class="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                  <dd class="flex flex-wrap items-center gap-2 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                     <FormattedDate date={date} />
+                    {badges.map((badge) => <Badge badge={badge} title={title} />)}
                   </dd>
                 </dl>
                 <div class="space-y-5 xl:col-span-3">

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import Badge from '../components/Badge.astro';
 import Giscus from '../components/Giscus.astro';
 import { siteMetadata } from '../data/siteMetadata';
 import type { CollectionEntry } from 'astro:content';
@@ -12,7 +13,7 @@ interface Props {
 }
 
 const { post, prevPost, nextPost } = Astro.props;
-const { title, date, summary } = post.data;
+const { title, date, summary, badges } = post.data;
 ---
 
 <BaseLayout title={title} description={summary} article={true}>
@@ -23,8 +24,9 @@ const { title, date, summary } = post.data;
           <dl class="space-y-10">
             <div>
               <dt class="sr-only">Published on</dt>
-              <dd class="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+              <dd class="flex items-center justify-center gap-2 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                 <FormattedDate date={date} />
+                {badges.map((badge) => <Badge badge={badge} title={title} />)}
               </dd>
             </div>
           </dl>

@@ -1,14 +1,15 @@
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
+import rehypeTypst from '@myriaddreamin/rehype-typst';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'astro/config';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
-import rehypeTypst from '@myriaddreamin/rehype-typst';
 import rehypePrismPlus from 'rehype-prism-plus';
 import rehypeSlug from 'rehype-slug';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
+import { shikiTitleTransformer } from './src/plugins/shiki-title';
 
 export default defineConfig({
   site: 'https://pavel.pink',
@@ -25,7 +26,8 @@ export default defineConfig({
       [rehypePrismPlus, { ignoreMissing: true }],
     ],
     shikiConfig: {
-      theme: 'github-dark',
+      theme: 'catppuccin-mocha',
+      transformers: [shikiTitleTransformer()],
     },
   },
   output: 'static',

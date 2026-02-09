@@ -12,6 +12,14 @@ const blog = defineCollection({
       summary: z.string().optional(),
       bannerImage: image().optional(),
       layoutType: z.enum(['PostSimple', 'PostLayout', 'PostBanner']).optional(),
+      badges: z
+        .array(
+          z.union([
+            z.object({ github: z.string(), label: z.string().optional() }),
+            z.object({ youtube: z.string(), label: z.string().optional() }),
+          ]),
+        )
+        .default([]),
     }),
 });
 

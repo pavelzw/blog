@@ -1,7 +1,7 @@
+import { getCollection } from 'astro:content';
 import mdxRenderer from '@astrojs/mdx/server.js';
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
-import { getCollection } from 'astro:content';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
 import { siteMetadata } from '../data/siteMetadata';
 
