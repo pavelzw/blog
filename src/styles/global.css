@@ -97,7 +97,8 @@ input:-webkit-autofill:focus {
   @apply text-primary-500 hover:text-primary-600 dark:hover:text-primary-400;
 }
 
-.prose :not(pre) > code {
+.prose :not(pre) > code,
+.prose > code {
   @apply text-indigo-500;
 }
 
