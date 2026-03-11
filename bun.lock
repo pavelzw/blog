@@ -5,13 +5,13 @@
     "": {
       "name": "pavels-blog",
       "dependencies": {
-        "@astrojs/mdx": "5.0.0",
+        "@astrojs/mdx": "^5.0.0",
         "@astrojs/rss": "^4.0.17",
         "@astrojs/sitemap": "^3.7.1",
-        "@astrojs/vercel": "10.0.0",
+        "@astrojs/vercel": "^10.0.0",
         "@myriaddreamin/rehype-typst": "^0.7.0-rc2",
         "@tailwindcss/vite": "^4.2.1",
-        "astro": "6.0.3",
+        "astro": "^6.0.3",
         "rehype-autolink-headings": "^7.1.0",
         "rehype-prism-plus": "^2.0.2",
         "rehype-slug": "^6.0.0",
