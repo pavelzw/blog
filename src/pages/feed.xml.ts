@@ -1,4 +1,4 @@
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import mdxRenderer from '@astrojs/mdx/server.js';
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
@@ -18,13 +18,13 @@ export async function GET(context: APIContext) {
 
   const items = [];
   for (const post of posts) {
-    const { Content } = await post.render();
+    const { Content } = await render(post);
     const content = await container.renderToString(Content);
     items.push({
       title: post.data.title,
       pubDate: post.data.date,
       description: post.data.summary || '',
-      link: `/blog/${post.slug}/`,
+      link: `/blog/${post.id}/`,
       categories: post.data.tags,
       author: `${siteMetadata.author.email} (${siteMetadata.author.name})`,
       content,

@@ -45,7 +45,7 @@ const { title, date, summary, badges } = post.data;
           {prevPost && (
             <div class="pt-4 xl:pt-8">
               <a
-                href={`/blog/${prevPost.slug}`}
+                href={`/blog/${prevPost.id}`}
                 class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                 aria-label={`Previous post: ${prevPost.data.title}`}
               >
@@ -56,7 +56,7 @@ const { title, date, summary, badges } = post.data;
           {nextPost && (
             <div class="pt-4 xl:pt-8">
               <a
-                href={`/blog/${nextPost.slug}`}
+                href={`/blog/${nextPost.id}`}
                 class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
                 aria-label={`Next post: ${nextPost.data.title}`}
               >
