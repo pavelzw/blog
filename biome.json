@@ -27,6 +27,7 @@
     "includes": [
       "**",
       "!**/dist",
+      "!**/.vercel",
       "!**/node_modules",
       "!**/.astro",
       "!**/*.astro",
