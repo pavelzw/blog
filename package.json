@@ -15,13 +15,13 @@
     "generate-icons": "bun run scripts/generate-icons.mjs"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.14",
+    "@astrojs/mdx": "^5.0.0",
     "@astrojs/rss": "^4.0.17",
     "@astrojs/sitemap": "^3.7.1",
-    "@astrojs/vercel": "^9.0.5",
+    "@astrojs/vercel": "^10.0.0",
     "@myriaddreamin/rehype-typst": "^0.7.0-rc2",
     "@tailwindcss/vite": "^4.2.1",
-    "astro": "^5.18.1",
+    "astro": "^6.0.3",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-prism-plus": "^2.0.2",
     "rehype-slug": "^6.0.0",

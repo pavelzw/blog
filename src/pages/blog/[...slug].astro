@@ -1,5 +1,5 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
 import PostLayout from '../../layouts/PostLayout.astro';
 import PostSimple from '../../layouts/PostSimple.astro';
 import PostBanner from '../../layouts/PostBanner.astro';
@@ -9,7 +9,7 @@ export async function getStaticPaths() {
   const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   
   return sortedPosts.map((post, index) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: {
       post,
       prevPost: sortedPosts[index + 1],
@@ -25,7 +25,7 @@ type Props = {
 };
 
 const { post, prevPost, nextPost } = Astro.props as Props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 const layout = post.data.layoutType || 'PostSimple';
 
 const layouts = {

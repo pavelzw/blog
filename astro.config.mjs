@@ -16,6 +16,15 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      rollupOptions: {
+        // https://github.com/withastro/astro/issues/15839
+        onwarn(warning, defaultHandler) {
+          if (warning.message?.includes('has been externalized for browser compatibility')) return;
+          defaultHandler(warning);
+        },
+      },
+    },
   },
   markdown: {
     remarkPlugins: [remarkGfm, remarkMath],
