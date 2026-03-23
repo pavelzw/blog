@@ -54,12 +54,25 @@ const { title, img, video, href, badge, imgBgColor, imgContain, imgPosition } = 
     )}
     {video && (
       <div class="overflow-hidden">
-        <video autoplay loop muted playsinline class="hidden h-full w-full object-cover dark:block">
-          <source src={video.dark} type="video/mp4" />
-        </video>
-        <video autoplay loop muted playsinline class="block h-full w-full object-cover dark:hidden">
-          <source src={video.light} type="video/mp4" />
-        </video>
+        {href ? (
+          <a href={href} aria-label={`Link to ${title}`}>
+            <video autoplay loop muted playsinline class="hidden h-full w-full object-cover dark:block">
+              <source src={video.dark} type="video/mp4" />
+            </video>
+            <video autoplay loop muted playsinline class="block h-full w-full object-cover dark:hidden">
+              <source src={video.light} type="video/mp4" />
+            </video>
+          </a>
+        ) : (
+          <>
+            <video autoplay loop muted playsinline class="hidden h-full w-full object-cover dark:block">
+              <source src={video.dark} type="video/mp4" />
+            </video>
+            <video autoplay loop muted playsinline class="block h-full w-full object-cover dark:hidden">
+              <source src={video.light} type="video/mp4" />
+            </video>
+          </>
+        )}
       </div>
     )}
     <div class="p-6">
