@@ -1,0 +1,61 @@
+- id: securing-the-supply-chain
+  title: Securing the Conda-Forge Supply Chain
+  date: 2026-04-21
+  url: https://prefix.dev/blog/securing-the-supply-chain
+  summary: >-
+    The past weeks have shown that we need to take a more active stance to
+    secure the conda-forge ecosystem. An overview of Pixi's new dependency
+    cooldown feature, existing protections like disabled post-install scripts
+    and Trusted Publishing with Sigstore, and plans for a community-driven CVE
+    mapping for conda-forge packages.
+
+- id: pixi-production
+  title: Shipping Conda Environments to Production Using Pixi
+  date: 2024-07-11
+  url: https://tech.quantco.com/blog/pixi-production
+  badges:
+    - github: quantco/pixi-pack
+      label: pixi-pack
+  summary: >-
+    Two approaches for deploying pixi-managed Python environments to production.
+    The first uses Docker with multi-stage builds and distroless images to
+    shrink containers from 691MB to 209MB. The second introduces pixi-pack, a
+    tool that packages environments into compressed archives for sealed
+    networks or Windows deployments where Docker is not an option.
+
+- id: automatic-repo-updating
+  title: How QuantCo Automatically Keeps Hundreds of Repositories Up-to-Date
+  date: 2024-06-18
+  url: https://tech.quantco.com/blog/automatic-repo-updating
+  summary: >-
+    QuantCo built Quant Ranger, a GitHub bot written in TypeScript that
+    automates maintenance across hundreds of repositories — updating Python
+    project templates, pre-commit hooks, and conda dependency versions. It
+    runs on a configurable schedule via GitHub Actions, uses a plugin
+    architecture for different update types, and solves CI authentication for
+    automated pull requests through GitHub App tokens.
+
+- id: polarify
+  title: Automatically Transform Complex Python Methods to Polars Expressions
+  date: 2023-08-25
+  url: https://tech.quantco.com/blog/polarify
+  badges:
+    - github: quantco/polarify
+      label: polarify
+  summary: >-
+    Tired of writing complicated Polars expressions? polarIFy automatically
+    translates your easy-to-read Python methods into efficient Polars
+    expressions!
+
+- id: slim-trees
+  title: Optimize Pickling Disk Space for Deploying scikit-learn Trees to Production
+  date: 2022-06-23
+  url: https://tech.quantco.com/blog/dtype-reduction-sklearn
+  badges:
+    - github: quantco/slim-trees
+      label: slim-trees
+  summary: >-
+    We present an open source library to shrink pickled scikit-learn and
+    lightgbm models. We will provide insights of how pickling ML models work
+    and how to improve the disk representation. With this approach, we can
+    reduce the deployment size of machine learning applications up to 6x.

@@ -5,8 +5,36 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Badge from '../components/Badge.astro';
 import { siteMetadata } from '../data/siteMetadata';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+type Entry = {
+  date: Date;
+  title: string;
+  summary?: string;
+  badges: Array<{ github: string; label?: string } | { youtube: string; label?: string }>;
+  href: string;
+  externalHost: string | null;
+};
+
+const blogEntries: Entry[] = (await getCollection('blog')).map((post) => ({
+  date: post.data.date,
+  title: post.data.title,
+  summary: post.data.summary,
+  badges: post.data.badges,
+  href: `/blog/${post.id}`,
+  externalHost: null,
+}));
+
+const externalEntries: Entry[] = (await getCollection('externalPosts')).map((post) => ({
+  date: post.data.date,
+  title: post.data.title,
+  summary: post.data.summary,
+  badges: post.data.badges,
+  href: post.data.url,
+  externalHost: new URL(post.data.url).hostname,
+}));
+
+const entries = [...blogEntries, ...externalEntries].sort(
+  (a, b) => b.date.valueOf() - a.date.valueOf(),
+);
 ---
 
 <BaseLayout>
@@ -20,15 +48,17 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
       </p>
     </div>
     <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-      {posts.map((post) => {
-        const { date, title, summary, badges } = post.data;
+      {entries.map(({ date, title, summary, badges, href, externalHost }) => {
+        const linkProps = externalHost
+          ? { target: '_blank', rel: 'noopener noreferrer' }
+          : {};
         return (
           <li class="py-12">
             <article>
               <div class="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                 <dl>
                   <dt class="sr-only">Published on</dt>
-                  <dd class="flex flex-wrap items-center gap-2 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                  <dd class="flex flex-col items-start gap-2 text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
                     <FormattedDate date={date} />
                     {badges.map((badge) => <Badge badge={badge} title={title} />)}
                   </dd>
@@ -38,7 +68,8 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
                     <div>
                       <h2 class="text-2xl font-bold leading-8 tracking-tight">
                         <a
-                          href={`/blog/${post.id}`}
+                          href={href}
+                          {...linkProps}
                           class="text-gray-900 dark:text-gray-100 hover:text-primary-500 dark:hover:text-primary-400"
                         >
                           {title}
@@ -51,11 +82,12 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
                   </div>
                   <div class="text-base font-medium leading-6">
                     <a
-                      href={`/blog/${post.id}`}
+                      href={href}
+                      {...linkProps}
                       class="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                      aria-label={`Read more: "${title}"`}
+                      aria-label={externalHost ? `Read "${title}" on ${externalHost}` : `Read more: "${title}"`}
                     >
-                      Read more &rarr;
+                      {externalHost ? `Read on ${externalHost}` : 'Read more'} &rarr;
                     </a>
                   </div>
                 </div>

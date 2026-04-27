@@ -5,7 +5,7 @@ import PostSimple from '../../layouts/PostSimple.astro';
 import PostBanner from '../../layouts/PostBanner.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const posts = await getCollection('blog');
   const sortedPosts = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   
   return sortedPosts.map((post, index) => ({
