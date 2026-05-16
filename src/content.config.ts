@@ -29,7 +29,7 @@ const externalPosts = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     summary: z.string(),
-    url: z.string().url(),
+    url: z.url(),
     badges: badgeSchema.default([]),
   }),
 });
