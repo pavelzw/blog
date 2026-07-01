@@ -1,3 +1,4 @@
+import { unified } from '@astrojs/markdown-remark';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
@@ -27,13 +28,15 @@ export default defineConfig({
     },
   },
   markdown: {
-    remarkPlugins: [remarkGfm, remarkMath],
-    rehypePlugins: [
-      rehypeSlug,
-      [rehypeAutolinkHeadings, { behavior: 'wrap' }],
-      rehypeTypst,
-      [rehypePrismPlus, { ignoreMissing: true }],
-    ],
+    processor: unified({
+      remarkPlugins: [remarkGfm, remarkMath],
+      rehypePlugins: [
+        rehypeSlug,
+        [rehypeAutolinkHeadings, { behavior: 'wrap' }],
+        rehypeTypst,
+        [rehypePrismPlus, { ignoreMissing: true }],
+      ],
+    }),
     shikiConfig: {
       theme: 'catppuccin-mocha',
       transformers: [shikiTitleTransformer()],
