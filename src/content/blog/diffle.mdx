@@ -1,0 +1,119 @@
+---
+title: 'diffle: A Diff Viewer for Human Code Review'
+date: '2026-10-08'
+summary: diffle opens your branch's diff in the browser with Vim-style navigation, hover and
+  go-to-definition from your local language servers, and line comments you can copy into a
+  coding agent as one prompt.
+badges:
+  - github: moritzwilksch/diffle
+    label: diffle
+layoutType: PostSimple
+---
+
+import ThemedImage from '../../components/ThemedImage.astro';
+import ThemedVideo from '../../components/ThemedVideo.astro';
+import claudeCodeLight from '../../assets/blog/diffle/claude-code-light.png';
+import claudeCodeDark from '../../assets/blog/diffle/claude-code-dark.png';
+import claudeLight from '../../assets/blog/diffle/claude-light.png';
+import claudeDark from '../../assets/blog/diffle/claude-dark.png';
+import chatgptLight from '../../assets/blog/diffle/chatgpt-light.png';
+import chatgptDark from '../../assets/blog/diffle/chatgpt-dark.png';
+
+diffle opens your branch's diff in the browser. It adds Vim-style navigation, hover and go-to-definition from your local language servers, and line comments you can copy into a coding agent as one prompt. My friend [Moritz](https://moritzwilksch.de) and I built it because agents now write most of our code, and reviewing that code is where our time goes.
+
+# Why we built it
+
+Coding agents have gotten good at producing a lot of code. As of September 2026, their design choices and the code's long-term maintainability don't always hit the mark. We think developers should still be in charge when writing high-stakes software. With coding agents, that can mean reviewing the generated interfaces and how components work together before merging a diff.
+
+That changes where we spend our time. We used to spend most of it in IDEs we'd spent countless hours customizing to make writing code feel smooth. Today, we generate most of our code through agent interfaces such as Claude Code or Codex. These work well for _generating_ code, but most don't offer a good interface for _reviewing_ it.
+
+Claude and Codex recently added features for viewing and commenting on diffs. That's better than reviewing code in a chat window.
+
+<ThemedImage
+  alt="Claude Code's /diff panel in the terminal"
+  lightSrc={claudeCodeLight}
+  darkSrc={claudeCodeDark}
+/>
+
+<ThemedImage
+  alt="The Claude desktop app's diff view"
+  lightSrc={claudeLight}
+  darkSrc={claudeDark}
+/>
+
+<ThemedImage
+  alt="The Codex app's Changes view"
+  lightSrc={chatgptLight}
+  darkSrc={chatgptDark}
+/>
+
+But reviewing code also takes context and an interface that makes it easy to move through the changes. IDEs have long been good at this. We just don't want to launch a full IDE every time we want to review a diff.
+
+So we built diffle, a diff viewer designed around human code review.
+
+# Why another diff viewer?
+
+"Wait, doesn't this already exist?" Yes, there are plenty of diff viewers. Some popular options include:
+
+**Terminal interfaces (TUIs)**
+
+[hunk](https://github.com/modem-dev/hunk), [tuicr](https://github.com/agavra/tuicr), [lumen](https://github.com/jnsahaj/lumen), [diffnav](https://github.com/dlvhdr/diffnav), [revdiff](https://github.com/umputun/revdiff)
+
+**Web viewers**
+
+[difit](https://github.com/yoshiko-pg/difit), [codiff](https://github.com/nkzw-tech/codiff), [critique](https://github.com/remorses/critique), [diffx](https://github.com/wong2/diffx)
+
+**Git clients**
+
+[GitHub Desktop](https://github.com/desktop/desktop), [GitButler](https://github.com/gitbutlerapp/gitbutler), [Sublime Merge](https://www.sublimemerge.com/), [GitKraken](https://gitkraken.com/git-client), github.com PR view (if it isn't down again)
+
+We look for three things in a diff tool:
+
+1. An interface built for reviewing code, much as IDEs are built for writing and debugging it.
+2. Context that helps us understand and judge changes, such as type information from a language server and navigation between commits or revisions.
+3. Comments tied to specific parts of the code, so we can give a coding agent feedback and iterate together.
+
+Of these tools, [difit](https://github.com/yoshiko-pg/difit) comes closest to what we need. It's lightweight, runs locally, and checks a lot of boxes. We also like TUIs for their keyboard-focused workflow, but a modern web browser provides more flexibility to design an interface around human code review.
+But difit gives reviewers limited context, much like GitHub's pull request view.
+Then we came across [diffshub.com](https://diffshub.com) by [The Pierre Computer Company](https://pierre.computer/) and thought to ourselves: What if our local diff viewer felt just as snappy and polished?
+
+# How diffle works
+
+We built our first local diff viewer with [Diffs](https://diffs.com/), the open-source components from [The Pierre Computer Company](https://pierre.computer/). We used it for our own work from day one and quickly added the features we wanted, starting with Vim-like keyboard navigation and LSP support.
+
+Run `diffle main` in a repository and your browser opens on the changes your branch introduced. You can also review uncommitted work, a single commit, or a GitHub pull request. For a branch with several commits, you can step through them individually and return to the full comparison.
+
+Once the diff is open, you can move between lines, hunks, and files with Vim-style shortcuts, filter the file tree, and mark files as viewed.
+
+But reading the changed lines is only part of a review. To judge a new function call, we often need to see what it calls and who else uses it. diffle uses language servers installed on your machine to bring that context into the diff. Hover a symbol for its signature and documentation, jump to its definition, or find its references. You can peek at each reference with the surrounding code before deciding where to go next.
+
+<ThemedVideo
+  label="Hovering verify_record shows its signature and docstring; Find references lists every call, and Space peeks at each one before jumping."
+  lightSrc="/static/blog/diffle/lsp-light.mp4"
+  darkSrc="/static/blog/diffle/lsp-dark.mp4"
+  lightPoster="/static/blog/diffle/lsp-light.webp"
+  darkPoster="/static/blog/diffle/lsp-dark.webp"
+/>
+
+When you find something to change, leave a comment on a line, a block, or the whole file. Press `yy` to copy all your comments as one Markdown prompt, with the file paths, line ranges, and quoted code. Paste it into your coding agent, and it gets each comment with the code it refers to. No more "pls fix this one nullable arg in the run_something method in the domain layer".
+
+<ThemedVideo
+  label="Clicking a line number opens a comment box; after posting it, the Copy all button copies every comment as one prompt."
+  lightSrc="/static/blog/diffle/comment-light.mp4"
+  darkSrc="/static/blog/diffle/comment-dark.mp4"
+  lightPoster="/static/blog/diffle/comment-light.webp"
+  darkPoster="/static/blog/diffle/comment-dark.webp"
+/>
+
+You can try it in any Git repository:
+
+```sh
+# npm
+npx @moritzwilksch/diffle main...HEAD
+# conda-forge
+pixi exec diffle main...HEAD
+# nix
+nix run github:moritzwilksch/diffle -- main...HEAD
+```
+
+The code is on [GitHub](https://github.com/moritzwilksch/diffle), with more demos and installation options at [diffle.app](https://diffle.app).

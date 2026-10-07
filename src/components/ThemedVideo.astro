@@ -1,0 +1,28 @@
+---
+interface Props {
+  label: string;
+  lightSrc: string;
+  darkSrc: string;
+  lightPoster?: string;
+  darkPoster?: string;
+}
+
+const { label, lightSrc, darkSrc, lightPoster, darkPoster } = Astro.props;
+---
+
+<!-- Light mode video -->
+<video autoplay loop muted playsinline poster={lightPoster} aria-label={label} class="dark:hidden">
+  <source src={lightSrc} type="video/mp4" />
+</video>
+<!-- Dark mode video -->
+<video
+  autoplay
+  loop
+  muted
+  playsinline
+  poster={darkPoster}
+  aria-label={label}
+  class="hidden dark:block"
+>
+  <source src={darkSrc} type="video/mp4" />
+</video>
