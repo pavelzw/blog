@@ -99,7 +99,7 @@ input:-webkit-autofill:focus {
 
 .prose :not(pre) > code,
 .prose > code {
-  @apply text-indigo-500;
+  @apply text-indigo-500 dark:text-indigo-300;
 }
 
 /* Light mode: opaque, Dark mode: semi-transparent */
