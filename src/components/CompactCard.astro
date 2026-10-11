@@ -1,0 +1,28 @@
+---
+import type { Project } from '@/data/projects';
+import Badge from './Badge.astro';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { title, href, badge, post, description } = project;
+---
+
+<div class="flex h-full flex-col rounded-md border-2 border-gray-200/60 p-4 dark:border-gray-700">
+  <div class="mb-2 flex items-center justify-between gap-2">
+    <h3 class="text-lg font-bold leading-6 tracking-tight">
+      <a href={href} aria-label={`Link to ${title}`} class="hover:text-primary-500 dark:hover:text-primary-400">
+        {title}
+      </a>
+    </h3>
+    {(badge || post) && (
+      <div class="flex shrink-0 flex-wrap justify-end gap-1.5">
+        {badge && <Badge badge={badge} title={title} />}
+        {post && <Badge badge={{ blog: post }} title={title} />}
+      </div>
+    )}
+  </div>
+  <p class="prose prose-sm max-w-none text-gray-500 dark:text-gray-400" set:html={description} />
+</div>
