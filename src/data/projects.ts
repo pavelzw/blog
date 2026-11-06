@@ -134,10 +134,9 @@ export const projects: Project[] = [
   },
   {
     title: 'conda-forge',
-    href: 'https://github.com/search?type=code&q=owner%3Aconda-forge+path%3Arecipe%2Frecipe.yaml+pavelzw',
+    href: 'https://conda-forge.org',
     img: anvil,
-    description:
-      'The backbone of the Conda ecosystem. It consists of over 30,000 packages for Linux, macOS and Windows.',
+    description: `The backbone of the Conda ecosystem. It consists of over 30,000 packages for Linux, macOS and Windows. See ${link('https://travishathaway.github.io/feedstock-maintainers/maintainers/pavelzw', 'the feedstocks I maintain')}.`,
     group: 'conda',
   },
   {
@@ -206,6 +205,15 @@ export const projects: Project[] = [
     href: 'https://github.com/pavelzw/pixi-install-to-prefix',
     badge: { github: 'pavelzw/pixi-install-to-prefix' },
     description: 'Install a Pixi environment into an arbitrary location.',
+    group: 'conda',
+    compact: true,
+  },
+  {
+    title: 'pixi-oci',
+    href: 'https://github.com/pavelzw/pixi-oci',
+    badge: { github: 'pavelzw/pixi-oci' },
+    description:
+      'Build OCI container images from Pixi environments without Docker or any other daemon: <code>pixi-oci build</code>',
     group: 'conda',
     compact: true,
   },
@@ -286,6 +294,17 @@ export const projects: Project[] = [
       light: '/static/projects/seven-circles-light.mp4',
     },
     description: `As part of the ${link('https://www.3blue1brown.com/blog/some2', 'Summer of Maths Exposition 2')}, I created a video explaining the Seven Circles Theorem.`,
+    group: 'misc',
+  },
+  {
+    title: 'Hirte',
+    href: 'https://hirte.dev',
+    badge: { github: 'glattziehen/hirte' },
+    video: {
+      dark: 'https://github.com/glattziehen/hirte/raw/refs/heads/main/assets/demo.mp4',
+      light: 'https://github.com/glattziehen/hirte/raw/refs/heads/main/assets/demo.mp4',
+    },
+    description: `An iPhone client for ${link('https://herdr.dev', 'herdr')}: see what your coding agents are doing over SSH, answer them in one tap, and jump into a real terminal when they need you.`,
     group: 'misc',
   },
   {
